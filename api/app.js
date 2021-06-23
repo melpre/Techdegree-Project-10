@@ -14,6 +14,7 @@ I am aiming for the grade Exceeds Expectations but will accept Meets Expectation
 const express = require('express');
 const morgan = require('morgan');
 const { sequelize } = require('./models');
+const cors = require('cors'); // load CORS module to connect to REACT client
 
 // import route modules
 const userRoutes = require('./routes/userRoutes');
@@ -24,6 +25,9 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 
 // create the Express app
 const app = express();
+
+// setup CORS to connect to REACT client
+app.use(cors());
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
