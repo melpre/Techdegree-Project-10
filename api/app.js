@@ -1,6 +1,6 @@
 /******************************************
 Treehouse FSJS Techdegree:
-project 9 - REST API with Express
+project 10 - Full Stack App using React and a REST API
 by Melissa Preece
 I am aiming for the grade Exceeds Expectations but will accept Meets Expectations as well.
 
