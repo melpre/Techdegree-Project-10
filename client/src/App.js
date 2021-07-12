@@ -1,25 +1,39 @@
-// import React and useState, useEffect hook
-import React, { useState, useEffect} from 'react';
-import './App.css';
+// Import React libraries and stylesheets
+import React from 'react';
+import {
+  BrowserRouter,
+  Route
+} from 'react-router-dom';
+
+import './css/reset.css'; // This has to be imported first BEFORE global.css (WHY??)
+import './css/global.css';
+
+// Import components
+import Header from './components/Header.js';
+import Courses from './components/Courses.js';
+import CourseDetail from './components/CourseDetail.js';
+import CreateCourse from './components/CreateCourse.js';
+import UpdateCourse from './components/UpdateCourse.js';
+import UserSignIn from './components/UserSignIn.js';
+import UserSignUp from './components/UserSignUp.js';
+import UserSignOut from './components/UserSignOut.js';
+
 
 function App() {
-  // Define useState and store values
-  const [courses, setCourses] = useState([]);
-
-  // Define useEffect to fetch API data: courses list
-  useEffect(() => {
-    fetch('http://localhost:5000/api/courses') //Pass the URL to the fetch API
-      .then((response) => response.json()) //Parse response to JSON
-      .then((courses) => setCourses(courses.courses)) //Update state to data fetched from API
-      .catch((error) => console.log(error)); //Catch any errors thrown from the fetch call
-  }, []);
-
-  // Mark up of unordered list of courses
   return (
-    <div>List of courses goes here.
-      <ul>{courses.map((course) => <li key={course.id}>{course.title}</li>)}</ul>
-    </div>
-  );
+    <BrowserRouter>
+      <main>
+        <Header />
+        <Route exact path="/" component={Courses} />
+        <Route path="/courses/:id" component={CourseDetail} />
+        <Route path="/courses/create" component={CreateCourse} />
+        <Route path="/courses/:id/update" component={UpdateCourse} />
+        <Route path="/signin" component={UserSignIn} />
+        <Route path="/signup" component={UserSignUp} />
+        <Route path="/signout" component={UserSignOut} />
+      </main>
+    </BrowserRouter>
+  )
 }
 
 export default App;
