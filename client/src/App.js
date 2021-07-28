@@ -5,8 +5,8 @@ import {
   Route
 } from 'react-router-dom';
 
-import './css/reset.css'; // This has to be imported first BEFORE global.css (WHY??)
-import './css/global.css';
+import './styles/reset.css'; // This has to be imported first BEFORE global.css (WHY??)
+import './styles/global.css';
 
 // Import components
 import Header from './components/Header.js';

@@ -2,6 +2,7 @@
 
 // Import React and Component extension
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 // Declare stateful functional component to render Sign In page and store state for authentication
 class UserSignIn extends Component {
@@ -30,9 +31,10 @@ class UserSignIn extends Component {
                     <input id="emailAddress" name="emailAddress" type="email" value="" />
                     <label for="password">Password</label>
                     <input id="password" name="password" type="password" value="" />
-                    <button className="button" type="submit">Sign In</button><button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button>
+                    <button className="button" type="submit">Sign In</button>
+                    <NavLink to="/signup"><button className="button button-secondary" onclick="event.preventDefault()">Cancel</button></NavLink>
                 
-                <p>Don't have a user account? Click here to <a href="sign-up.html">sign up</a>!</p>
+                <p>Don't have a user account? Click here to <NavLink to="/signup"><a>sign up</a></NavLink>!</p>
                 
             </div>
         );

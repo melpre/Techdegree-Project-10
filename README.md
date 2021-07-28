@@ -103,6 +103,16 @@ Project Instructions
         - /signout - UserSignOut
 
 7. Add support for user authentication
+    * To prepare for implementing user authentication (i.e. user sign in and sign out), determine where you'll manage your application's global state.
+        - One option, is to keep your global state in your App component. Using this approach, the authenticated user and the user sign in and sign out actions (i.e. methods) are made available throughout your application, by using props to pass references down through your component tree.
+        - Another option, is to manage your global state using the React Context API. Using this approach, the authenticated user and the user sign in and sign out actions (i.e. methods) are defined using a Context API <Provider> component and made available throughout your application using Context API <Consumer> components.
+    * Create your signIn() method.
+        - Your signIn() method should define emailAddress and password parameters.
+        - To authenticate the user, make a request to the REST API's /users endpoint, using the emailAddress and password parameter values to set an Authorization header on the request using the Basic Authentication scheme.
+        - If the request to the REST API succeeds (i.e. the server returns an "200 OK" HTTP status code), then you'll know that the supplied user credentials are valid. If the server returns a "401 Unauthorized" HTTP status code, then the supplied user credentials are invalid.
+        - After validating the user's credentials, persist the returned user record and the user's password in the global state. Doing this will allow you to create and set the appropriate Authorization header on future REST API requests that require authentication.
+    * Create your signOut() method.
+        - The signOut() method should remove the authenticated user and password from the global state.
 
 8. Configure your protected routes
 

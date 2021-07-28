@@ -2,6 +2,7 @@
 
 // Import React and useState hook
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 // Declare stateful functional component to render Sign Up page and store state for authentication
 class UserSignUp extends Component {
@@ -38,9 +39,10 @@ class UserSignUp extends Component {
                     <input id="password" name="password" type="password" value="" />
                     <label for="confirmPassword">Confirm Password</label>
                     <input id="confirmPassword" name="confirmPassword" type="password" value="" />
-                    <button className="button" type="submit">Sign Up</button><button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button>
+                    <button className="button" type="submit">Sign Up</button>
+                    <NavLink to="/signin"><button className="button button-secondary" onclick="event.preventDefault()">Cancel</button></NavLink>
 
-                <p>Already have a user account? Click here to <a href="sign-in.html">sign in</a>!</p>
+                <p>Already have a user account? Click here to <NavLink to="/signin"><a>sign in</a></NavLink>!</p>
             </div>
         );
     }
