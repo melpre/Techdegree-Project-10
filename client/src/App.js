@@ -18,20 +18,26 @@ import UserSignIn from './components/UserSignIn.js';
 import UserSignUp from './components/UserSignUp.js';
 import UserSignOut from './components/UserSignOut.js';
 
+// Import higher order function 'withContext' to subscribe a component passed to it all actions and context changes
+import withContext from './Context'; 
+
+// Connect Components to context:
+// UserSignUp to context
+const UserSignUpWithContext = withContext(UserSignUp);
 
 function App() {
   return (
     <BrowserRouter>
-      <main>
-        <Header />
-        <Route exact path="/" component={Courses} />
-        <Route path="/courses/:id" component={CourseDetail} />
-        <Route path="/courses/create" component={CreateCourse} />
-        <Route path="/courses/:id/update" component={UpdateCourse} />
-        <Route path="/signin" component={UserSignIn} />
-        <Route path="/signup" component={UserSignUp} />
-        <Route path="/signout" component={UserSignOut} />
-      </main>
+        <main>
+          <Header />
+          <Route exact path="/" component={Courses} />
+          <Route exact path="/courses/:id" component={CourseDetail} />
+          <Route path="/courses/create" component={CreateCourse} />
+          <Route path="/courses/:id/update" component={UpdateCourse} />
+          <Route path="/signin" component={UserSignIn} />
+          <Route path="/signup" component={UserSignUpWithContext} />
+          <Route path="/signout" component={UserSignOut} />
+        </main>
     </BrowserRouter>
   )
 }

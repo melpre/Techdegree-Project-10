@@ -4,11 +4,12 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
+
 // Declare stateful functional component to retrieve a course's details from API data
 function CourseDetail() {
     // Declare var to hold url param 'id'
     const currentURL = window.location.href;
-    const id = currentURL.substring(currentURL.lastIndexOf('/') + 1);
+    const id = currentURL.substring(30);
 
     // Define useState and store values
     const [title, setTitle] = useState('');
@@ -62,7 +63,7 @@ function CourseDetail() {
         <main>
             <div className="actions--bar">
                 <div className="wrap">
-                    <NavLink to="courses/:id/update"><a className="button">Update Course</a></NavLink>
+                    <NavLink exact to={`/courses/${id}/update`}><a className="button">Update Course</a></NavLink>
                     <NavLink exact to="/"><a className="button">Delete Course</a></NavLink>
                     <NavLink exact to="/"><a className="button button-secondary">Return to List</a></NavLink>
                 </div>
