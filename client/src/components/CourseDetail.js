@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 
 
 // Declare stateful functional component to retrieve a course's details from API data
-function CourseDetail() {
+export default function CourseDetail() {
     // Declare var to hold url param 'id'
     const currentURL = window.location.href;
     const id = currentURL.substring(30);
@@ -17,6 +17,7 @@ function CourseDetail() {
     const [estimatedTime, setEstimatedTime] = useState('');
     const [instructor, setInstructor] = useState('');
     const [materialsNeeded, setMaterialsNeeded] = useState('');
+    // const [userId, setUserId ] = useState('');
 
     useEffect(() => {
         // CONDITIONAL: if course ID exists, fetch data
@@ -28,7 +29,8 @@ function CourseDetail() {
                     description,
                     estimatedTime,
                     instructor,
-                    materialsNeeded
+                    materialsNeeded,
+                    // userId
                 } = data.course;
 
                 //Set state to each destructured element
@@ -37,6 +39,7 @@ function CourseDetail() {
                 setEstimatedTime(estimatedTime);
                 setInstructor(instructor);
                 setMaterialsNeeded(materialsNeeded);
+                // setUserId(userId);
             })
             .catch((error) => console.log(error)); //Catch any errors thrown from the fetch call
     }, []);
@@ -54,7 +57,7 @@ function CourseDetail() {
         if (materialsNeeded != null) {
             const listMaterials = string.split('*');
             listMaterials.shift();
-            return listMaterials.map((listItem) => <li>{listItem}</li>)
+            return listMaterials.map((listItem, i) => <li key={i}>{listItem}</li>)
         }
     };
 
@@ -63,9 +66,9 @@ function CourseDetail() {
         <main>
             <div className="actions--bar">
                 <div className="wrap">
-                    <NavLink exact to={`/courses/${id}/update`}><a className="button">Update Course</a></NavLink>
-                    <NavLink exact to="/"><a className="button">Delete Course</a></NavLink>
-                    <NavLink exact to="/"><a className="button button-secondary">Return to List</a></NavLink>
+                    <NavLink exact to={`/courses/${id}/update`} className="button">Update Course</NavLink>
+                    <NavLink exact to="/" className="button">Delete Course</NavLink>
+                    <NavLink exact to="/" className="button button-secondary">Return to List</NavLink>
                 </div>
             </div>
             
@@ -95,4 +98,5 @@ function CourseDetail() {
     );
 }
 
-export default CourseDetail;
+
+

@@ -12,6 +12,7 @@ export default class UserSignUp extends Component {
         lastName: '',
         emailAddress: '',
         password: '',
+        confirmPassword: '',
         errors: []
     }
 
@@ -22,6 +23,7 @@ export default class UserSignUp extends Component {
             lastName,
             emailAddress,
             password,
+            confirmPassword,
             errors
         } = this.state;
 
@@ -47,6 +49,7 @@ export default class UserSignUp extends Component {
                         type="text"
                         value={firstName} 
                         onChange={this.change} />
+
                         <label htmlFor="lastName">Last Name</label>
                         <input 
                         id="lastName" 
@@ -54,6 +57,7 @@ export default class UserSignUp extends Component {
                         type="text"
                         value={lastName} 
                         onChange={this.change} />
+
                         <label htmlFor="emailAddress">Email Address</label>
                         <input 
                         id="emailAddress" 
@@ -61,6 +65,7 @@ export default class UserSignUp extends Component {
                         type="email"
                         value={emailAddress} 
                         onChange={this.change} />
+
                         <label htmlFor="password">Password</label>
                         <input 
                         id="password" 
@@ -68,12 +73,13 @@ export default class UserSignUp extends Component {
                         type="password"
                         value={password} 
                         onChange={this.change} />
+                        
                         <label htmlFor="confirmPassword">Confirm Password</label>
                         <input 
                         id="confirmPassword" 
                         name="confirmPassword"
                         type="password"
-                        value={password} 
+                        value={confirmPassword} 
                         onChange={this.change} />
                     </React.Fragment>
                     )} />

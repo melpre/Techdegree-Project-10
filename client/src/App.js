@@ -2,7 +2,8 @@
 import React from 'react';
 import {
   BrowserRouter,
-  Route
+  Route,
+  Switch
 } from 'react-router-dom';
 
 import './styles/reset.css'; // This has to be imported first BEFORE global.css (WHY??)
@@ -17,26 +18,33 @@ import UpdateCourse from './components/UpdateCourse.js';
 import UserSignIn from './components/UserSignIn.js';
 import UserSignUp from './components/UserSignUp.js';
 import UserSignOut from './components/UserSignOut.js';
+import PrivateRoute from './PrivateRoute';
 
 // Import higher order function 'withContext' to subscribe a component passed to it all actions and context changes
 import withContext from './Context'; 
 
 // Connect Components to context:
-// UserSignUp to context
+const HeaderWithContext = withContext(Header);
 const UserSignUpWithContext = withContext(UserSignUp);
+const UserSignInWithContext = withContext(UserSignIn);
+const CreateCourseWithContext = withContext(CreateCourse);
 
 function App() {
   return (
     <BrowserRouter>
         <main>
-          <Header />
-          <Route exact path="/" component={Courses} />
-          <Route exact path="/courses/:id" component={CourseDetail} />
-          <Route path="/courses/create" component={CreateCourse} />
-          <Route path="/courses/:id/update" component={UpdateCourse} />
-          <Route path="/signin" component={UserSignIn} />
-          <Route path="/signup" component={UserSignUpWithContext} />
-          <Route path="/signout" component={UserSignOut} />
+          <HeaderWithContext />
+          <Switch>
+            <Route exact path="/" component={Courses} />
+            {/* <PrivateRoute> */}
+            <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
+            <Route exact path="/courses/:id" component={CourseDetail} /> 
+            {/* <PrivateRoute> */}
+            <PrivateRoute exact path="/courses/:id/update" component={UpdateCourse} />
+            <Route path="/signin" component={UserSignInWithContext} />
+            <Route path="/signup" component={UserSignUpWithContext} />
+            <Route path="/signout" component={UserSignOut} />
+          </Switch>
         </main>
     </BrowserRouter>
   )

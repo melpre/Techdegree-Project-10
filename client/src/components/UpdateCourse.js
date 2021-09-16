@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
 // Declare stateful functional component to render Update Course page and store values to update API data
-function UpdateCourse() {
+export default function UpdateCourse() {
     
     // Declare var to hold url param 'id'
     const currentURL = window.location.href;
@@ -22,8 +22,8 @@ function UpdateCourse() {
     useEffect(() => {
         // CONDITIONAL: if course ID exists, fetch data
         fetch(`http://localhost:5000/api/courses/${id}`)
-            .then((response) => response.json()) //Parse response to JSON
-            .then((data) => { //Update state to data fetched from API
+            .then((response) => response.json()) //parse response to JSON
+            .then((data) => { //update state to data fetched from API
                 const {
                     title,
                     description,
@@ -39,7 +39,7 @@ function UpdateCourse() {
                 setInstructor(instructor);
                 setMaterialsNeeded(materialsNeeded);
             })
-            .catch((error) => console.log(error)); //Catch any errors thrown from the fetch call
+            .catch((error) => console.log(error)); //catch any errors thrown from the fetch call
     }, []);
 
     // LOG STATEMENTS
@@ -58,7 +58,7 @@ function UpdateCourse() {
 
     // DOES NOT WORK CURRENTLY
     // Send PUT request to API
-    function handleSubmitCourseData(event) {
+    function handleSubmitUpdateCourse(event) {
         event.preventDefault();
         const title = document.getElementById('courseTitle').value;
         const description = document.getElementById('courseDescription').value;
@@ -83,29 +83,11 @@ function UpdateCourse() {
             .then(data => console.log(data)) //LOG STATEMENT: to check that data has been updated to db
     }
 
-    // const handleSubmitCourseData = (event) => {
-    //     event.preventDefault();
-    //     fetch(`http://localhost:5000/api/courses/${id}`, { 
-    //         method: 'PUT',
-    //         data: {
-    //           title: handleTitleChange,
-    //           description: handleDescriptionChange,
-    //           estimatedTime: handleEstimatedTimeChange,
-    //           materialsNeeded: handleMaterialsNeededChange
-    //         }
-    //       })
-    //       .then(function(response) {
-    //         return response.json()
-    //       }).then(function(body) {
-    //         console.log(body);
-    //       });
-    // }
-
     // Mark up of Update Course form
     return(
         <div className="wrap">
             <h2>Update Course</h2>
-            {/* <form onSubmit={handleSubmitCourseData}> */}
+            {/* <form onSubmit={handleSubmitUpdateCourse}> */}
             <form>
                 <div className="main--flex">
                     <div>
@@ -146,7 +128,7 @@ function UpdateCourse() {
                     </div>
                 </div>
                 <NavLink exact to="/">
-                    <button className="button" type="submit" onClick={handleSubmitCourseData}>Update Course</button>
+                    <button className="button" type="submit" onClick={handleSubmitUpdateCourse}>Update Course</button>
                 </NavLink>
                 <NavLink to={`/courses/${id}`}>
                     <button className="button button-secondary">Cancel</button>
@@ -155,5 +137,3 @@ function UpdateCourse() {
         </div>
     );
 }
-
-export default UpdateCourse;

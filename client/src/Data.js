@@ -1,10 +1,10 @@
-// DATA (HELPER) CLASS:
+/* DATA (HELPER) CLASS: */
 
 import config from './config';
 
 export default class Data {
-  // api() method will make GET and POST requests to /user endpoint of api
-  api(path, method = 'GET', body = null) {
+  // api() method will make GET and POST requests to /users endpoint of api
+  api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     // Declare var 'url' and assign it to config url + path name
     const url = config.apiBaseUrl + path;
   
@@ -20,20 +20,16 @@ export default class Data {
       options.body = JSON.stringify(body);
     }
 
-    // // check if auth is required
-    // // If we're making a request to a protected route on the server, authentication 
-    // // is required (the requiresAuth is true). In that case, we'll encode the user 
-    // // credentials and set the HTTP Authorization request header to the Basic Authentication 
-    // // type, followed by the encoded user credentials.
-    // if (requiresAuth) {
-    //   // The btoa() method creates a base-64 encoded ASCII string from a "string" of data. 
-    //   // We'll use btoa() to encode the username and password credentials passed to the api() 
-    //   // method. The credentials will be passed as an object containing username and password 
-    //   // properties. Make sure to use : colon between each property
-    //   const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
-    //   // add authorization property to headers object and set to var encodedCredentials
-    //   options.headers['Authorization'] = `Basic ${encodedCredentials}`;
-    // }
+    // Check if authorization is required
+    if (requiresAuth) { //requests to protected routes in api requiresAuth to be true
+      // The btoa() method creates a base-64 encoded ASCII string from a "string" of data. 
+      // We'll use btoa() to encode the user ID (in this case emailAddress) and password credentials passed to the api() 
+      // method. The credentials will be passed as an object containing emailAddress and password 
+      // properties. Make sure to use : colon between each property
+      const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
+      // Add authorization property to headers object and set it to var encodedCredentials
+      options.headers['Authorization'] = `Basic ${encodedCredentials}`;
+    }
 
     return fetch(url, options);
   }
@@ -41,18 +37,18 @@ export default class Data {
   // getUser() makes GET request to /users endpoint, and returns JSON object containing user credentials.
   // To authenticate user using credentials, set requiresAuth param to 'true' and credentials to
   // properties 'username' and 'password' from credentials object.
-  // async getUser(username, password) {
-  //   const response = await this.api('/users', 'GET', null, true, { username, password });
-  //   if (response.status === 200) {
-  //     return response.json().then(data => data);
-  //   }
-  //   else if (response.status === 401) {
-  //     return null;
-  //   }
-  //   else {
-  //     throw new Error();
-  //   }
-  // }
+  async getUser(emailAddress, password) {
+    const response = await this.api('/users', 'GET', null, true, { emailAddress, password });
+    if (response.status === 200) {
+      return response.json().then(data => data);
+    }
+    else if (response.status === 401) {
+      return null;
+    }
+    else {
+      throw new Error();
+    }
+  }
 
   // createUser() makes POST request, sending new user data to the /users endpoint.
   async createUser(user) {
@@ -62,6 +58,7 @@ export default class Data {
     }
     else if (response.status === 400) {
       return response.json().then(data => {
+        console.log(data.errors);
         return data.errors;
       });
     } else {
@@ -69,4 +66,6 @@ export default class Data {
     }
   }
 }
+
+
 
