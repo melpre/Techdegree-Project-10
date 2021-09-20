@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom';
 import Form from './Form';
 
 export default class UserSignUp extends Component {
-    
     // Initialize state to include user credentials and errors if any
     state = {
         firstName: '',
@@ -17,7 +16,7 @@ export default class UserSignUp extends Component {
     }
 
     render() {
-        // Set state in object with user credentials and errors if any
+        // Update state in object with user credentials or errors if any
         const {
             firstName,
             lastName,
@@ -90,6 +89,7 @@ export default class UserSignUp extends Component {
         );
     }
 
+    // change() function updates elements and their values on change events
     change = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -108,10 +108,10 @@ export default class UserSignUp extends Component {
 
         // Destructure state object and unpack the following:
         const {
-        firstName,
-        lastName,
-        emailAddress,
-        password,
+            firstName,
+            lastName,
+            emailAddress,
+            password,
         } = this.state;
 
         // Define new user credentials entered by user

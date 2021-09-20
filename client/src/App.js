@@ -24,10 +24,11 @@ import PrivateRoute from './PrivateRoute';
 import withContext from './Context'; 
 
 // Connect Components to context:
-const HeaderWithContext = withContext(Header);
+const HeaderWithContext = withContext(Header); // Is this the correct way to subscribe a func component to context?
 const UserSignUpWithContext = withContext(UserSignUp);
-const UserSignInWithContext = withContext(UserSignIn);
+const UserSignInWithContext = withContext(UserSignIn); 
 const CreateCourseWithContext = withContext(CreateCourse);
+const UpdateCourseWithContext = withContext(UpdateCourse); 
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
             <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
             <Route exact path="/courses/:id" component={CourseDetail} /> 
             {/* <PrivateRoute> */}
-            <PrivateRoute exact path="/courses/:id/update" component={UpdateCourse} />
+            <PrivateRoute exact path="/courses/:id/update" component={UpdateCourseWithContext} />
             <Route path="/signin" component={UserSignInWithContext} />
             <Route path="/signup" component={UserSignUpWithContext} />
             <Route path="/signout" component={UserSignOut} />
@@ -51,3 +52,7 @@ function App() {
 }
 
 export default App;
+
+
+
+

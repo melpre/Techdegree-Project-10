@@ -6,7 +6,6 @@ import Form from './Form';
 
 // Declare stateful class component to render Sign In page and store state for authentication
 export default class UserSignIn extends Component {
-
     // Initialize state to include user credentials and errors if any
     state = {
         emailAddress: '',
@@ -20,7 +19,7 @@ export default class UserSignIn extends Component {
     }
 
     render() {
-        // Set state in object with user credentials and errors if any
+        // Update state in object with user credentials and errors if any
         const {
             emailAddress,
             password,
@@ -62,6 +61,7 @@ export default class UserSignIn extends Component {
         );
     }
 
+    // change() function updates elements and their values on change events
     change = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -89,7 +89,9 @@ export default class UserSignIn extends Component {
                         return { errors: [ 'Sign-in was unsuccessful' ] };
                     });
                 } else {
-                    this.props.history.push(`/`); // persist returned user's record and store user's password in global state
+                    // !NOT DONE! persist returned user's record and store user's password in global state
+                    
+                    this.props.history.push(`/`);
                 }
             })
     }

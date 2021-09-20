@@ -1,4 +1,4 @@
-/* STATEFUL FUNCTIONAL COMPONENT */
+/* STATEFUL FUNCTION COMPONENT */
 
 // Import React libraries and hooks
 import React, { useState, useEffect } from 'react';
@@ -17,18 +17,18 @@ export default function CourseDetail() {
     const [estimatedTime, setEstimatedTime] = useState('');
     const [instructor, setInstructor] = useState('');
     const [materialsNeeded, setMaterialsNeeded] = useState('');
-    // const [userId, setUserId ] = useState('');
 
     useEffect(() => {
         // CONDITIONAL: if course ID exists, fetch data
-        fetch(`http://localhost:5000/api/courses/${id}`)
-            .then((response) => response.json()) //Parse response to JSON
-            .then((data) => { //Update state to data fetched from API
+        async function fetchCourse()  {
+            try {
+                const response = await fetch(`http://localhost:5000/api/courses/${id}`);
+                const data = await response.json();
                 const {
-                    title,
-                    description,
-                    estimatedTime,
-                    instructor,
+                    title, 
+                    description, 
+                    estimatedTime, 
+                    instructor, 
                     materialsNeeded,
                     // userId
                 } = data.course;
@@ -39,9 +39,11 @@ export default function CourseDetail() {
                 setEstimatedTime(estimatedTime);
                 setInstructor(instructor);
                 setMaterialsNeeded(materialsNeeded);
-                // setUserId(userId);
-            })
-            .catch((error) => console.log(error)); //Catch any errors thrown from the fetch call
+            } catch (error) { //Catch any errors thrown from the fetch call
+                return console.log(error);
+            }
+        }
+        fetchCourse();
     }, []);
 
     // LOG STATEMENTS

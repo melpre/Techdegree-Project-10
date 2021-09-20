@@ -41,8 +41,7 @@ export default class Data {
     const response = await this.api('/users', 'GET', null, true, { emailAddress, password });
     if (response.status === 200) {
       return response.json().then(data => data);
-    }
-    else if (response.status === 401) {
+    } else if (response.status === 401) {
       return null;
     }
     else {
@@ -55,8 +54,7 @@ export default class Data {
     const response = await this.api('/users', 'POST', user);
     if (response.status === 201) {
       return [];
-    }
-    else if (response.status === 400) {
+    } else if (response.status === 400) {
       return response.json().then(data => {
         console.log(data.errors);
         return data.errors;
@@ -65,6 +63,22 @@ export default class Data {
       throw new Error();
     }
   }
+
+  // createCourse() makes POST request, sending new course data to the /courses endpoint.
+  async createCourse(course) {
+    const response = await this.api('/courses', 'POST', course);
+    if (response.status === 201) {
+      return [];
+    } else if (response.status === 400) {
+      return response.json().then(data => {
+        console.log(data.errors);
+        return data.errors;
+      });
+    } else {
+      throw new Error();
+    }
+  }
+
 }
 
 

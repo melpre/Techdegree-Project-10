@@ -1,4 +1,4 @@
-/* STATELESS FUNCTIONAL COMPONENT */
+/* STATELESS FUNCTION COMPONENT */
 
 // Import React libraries
 import React from 'react';

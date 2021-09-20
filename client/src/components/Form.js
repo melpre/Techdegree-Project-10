@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default (props) => {
+export default function Form(props) {
   const {
     cancel,
     errors,
@@ -21,7 +21,7 @@ export default (props) => {
 
   return (
     <div>
-      <ErrorsDisplay errors={errors} />
+      {/* <ErrorsDisplay errors={errors} /> */}
       <form onSubmit={handleSubmit}>
         {elements()}
         <div className="pad-bottom">

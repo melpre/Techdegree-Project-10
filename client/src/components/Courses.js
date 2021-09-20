@@ -1,4 +1,4 @@
-/* STATEFUL FUNCTIONAL COMPONENT */
+/* STATEFUL FUNCTION COMPONENT */
 
 // Import React and useState, useEffect hooks
 import React, { useState, useEffect } from 'react';
