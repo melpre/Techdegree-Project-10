@@ -3,7 +3,7 @@
 import config from './config';
 
 export default class Data {
-  // api() method will make GET and POST requests to /users endpoint of api
+  // api() method will make GET and POST requests to /users & GET, POST, PUT and DELETE requests to /courses endpoint of api
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     // Declare var 'url' and assign it to config url + path name
     const url = config.apiBaseUrl + path;
@@ -51,7 +51,7 @@ export default class Data {
 
   // createUser() makes POST request, sending new user data to the /users endpoint.
   async createUser(user) {
-    const response = await this.api('/users', 'POST', user);
+    const response = await this.api('/users', 'POST', user, false);
     if (response.status === 201) {
       return [];
     } else if (response.status === 400) {
@@ -65,8 +65,9 @@ export default class Data {
   }
 
   // createCourse() makes POST request, sending new course data to the /courses endpoint.
-  async createCourse(course) {
-    const response = await this.api('/courses', 'POST', course);
+  async createCourse(course, user, emailAddress, password) {
+    // Send Course data along with header options
+    const response = await this.api('/courses', 'POST', { course, user }, true, { emailAddress, password });
     if (response.status === 201) {
       return [];
     } else if (response.status === 400) {

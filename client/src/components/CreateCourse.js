@@ -45,10 +45,10 @@ export default class CreateCourse extends Component {
                     <React.Fragment>
                         <div className="main--flex">
                             <div>
-                                <label htmlFor="courseTitle">Course Title</label>
+                                <label htmlFor="title">Course Title</label>
                                 <input 
-                                id="courseTitle" 
-                                name="courseTitle" 
+                                id="title" 
+                                name="title" 
                                 type="text" 
                                 value={title}
                                 onChange={this.change} />
@@ -56,10 +56,10 @@ export default class CreateCourse extends Component {
                                 {/* Render instructor name via Context component */}
                                 <p>By {authUser.firstName} {authUser.lastName}</p> 
 
-                                <label htmlFor="courseDescription">Course Description</label>
+                                <label htmlFor="description">Course Description</label>
                                 <textarea 
-                                id="courseDescription" 
-                                name="courseDescription"
+                                id="description" 
+                                name="description"
                                 type="text"
                                 value={description}
                                 onChange={this.change} />
@@ -101,9 +101,19 @@ export default class CreateCourse extends Component {
     }
 
     // submit() function creates new course associated with authenticated user
+    // WORKFLOW OF SUBMIT FUNCTION:
+        // 1) When 'Create Course' button is clicked, store values from input fields
+        // 2) Store authenticated user credentials (from context)
+        // 3) Before sending a POST request to API, two conditions must me met:
+                // If one or more values are invalid (e.g. blank or incorrect value type), trigger display of Validation Errors message
+                // If all values are valid, check to see if authenticated user matches existing user in api
+                    // If authenticated user matches, send POST request 
     submit = () => {
         // Destructure props to extract context from this.props
         const { context } = this.props;
+        const authUser = context.authenticatedUser;
+        
+        // LOG STATEMENTS
 
         // Destructure state object and unpack the following:
         const {
@@ -124,7 +134,7 @@ export default class CreateCourse extends Component {
 
         // Call createCourse() and pass in new course data AND authenticated user's credentials
         // User credentials MUST PASS auth-handler middleware in api
-        context.data.createCourse(course)
+        context.data.createCourse(course, authUser, authUser.emailAddress, authUser.password)
             .then( errors => { // chain then() to see if api returns status 400 and errors array
                 if (errors.length) { // if errors are present
                     this.setState({ errors }); // update errors state to returned errors from api
@@ -143,113 +153,6 @@ export default class CreateCourse extends Component {
     }
 }
 
-// Declare stateful functional component to render Create Course page and store values to update API data
-// export default function CreateCourse() {
-//     // Initialize state and store values
-//     const [title, setTitle] = useState('');
-//     const [description, setDescription] = useState('');
-//     const [estimatedTime, setEstimatedTime] = useState('');
-//     const [materialsNeeded, setMaterialsNeeded] = useState('');
-//     const [errors, setErrors] = useState([]);
-
-//     // Declare vars to set state changes in 'title', 'description', 'estimatedTime' and 'materialsNeeded':
-//     const handleTitleChange = (event) => setTitle(event.target.value);
-//     const handleDescriptionChange = (event) => setDescription(event.target.value);
-//     const handleEstimatedTimeChange = (event) => setEstimatedTime(event.target.value);
-//     const handleMaterialsNeededChange = (event) => setMaterialsNeeded(event.target.value);
-    
-//     // Mark up of Create Course form
-//     return(
-//         <div className="wrap">
-//             <h2>Create Course</h2>
-//             <Form
-//                 cancel={(props) => props.history.push('/')}
-//                 errors={errors} // pass errors from handleSubmitNewCourse func (if any)
-//                 submit={handleSubmitNewCourse}
-//                 submitButtonText="Create Course"
-//                 elements={() => (
-//                 <React.Fragment>
-//                     <div className="main--flex">
-//                         <div>
-//                             <label htmlFor="courseTitle">Course Title</label>
-//                             <input 
-//                             id="courseTitle" 
-//                             name="courseTitle" 
-//                             type="text" 
-//                             value={title}
-//                             onChange={handleTitleChange} />
-
-//                             {/* Render instructor name via PrivateRoute component */}
-//                             <p>By First Name Last Name</p> 
-
-//                             <label htmlFor="courseDescription">Course Description</label>
-//                             <textarea 
-//                             id="courseDescription" 
-//                             name="courseDescription"
-//                             type="text"
-//                             value={description}
-//                             onChange={handleDescriptionChange} />
-//                         </div>
-//                         <div>
-//                             <label htmlFor="estimatedTime">Estimated Time</label>
-//                             <input 
-//                             id="estimatedTime" 
-//                             name="estimatedTime" 
-//                             type="text" 
-//                             value={estimatedTime}
-//                             onChange={handleEstimatedTimeChange} />
-
-//                             <label htmlFor="materialsNeeded">Materials Needed</label>
-//                             <textarea 
-//                             id="materialsNeeded" 
-//                             name="materialsNeeded"
-//                             type="text"
-//                             value={materialsNeeded}
-//                             onChange={handleMaterialsNeededChange} />
-//                         </div>
-//                     </div>
-//                 </React.Fragment>
-//                 )} />
-//         </div>
-//     );
-
-//     function handleSubmitNewCourse() {
-//         const title = document.getElementById('courseTitle').value;
-//         const description = document.getElementById('courseDescription').value;
-//         const estimatedTime = document.getElementById('estimatedTime').value;
-//         const materialsNeeded = document.getElementById('materialsNeeded').value;
-
-//         const config = {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'requiresAuth': 'true', // set authorization header to true
-                
-//             },
-//             body: JSON.stringify({ 
-//                 title, 
-//                 description, 
-//                 estimatedTime, 
-//                 materialsNeeded,
-//                 errors 
-//             })
-//         }
-
-//         fetch(`http://localhost:5000/api/courses`, config)
-//             .then(res => res.json())
-//             .then(data => console.log(data)) //LOG STATEMENT: to check that data has been updated to db
-//             .then( errors => { // chain then() to see if api returns status 400 and errors array
-//                 if (errors.length) { // if errors are present
-//                     setErrors(errors); // update errors state to returned errors from api
-//                 } else { // else if course is successfully created and sent to api, display log msg:
-//                     console.log(`${title} is successfully added!`);
-//                 }
-//             })
-//             .catch( err => { // handle errors (rejected promises) from server side
-//                 console.log(err);
-//             })
-//     }
-// }
 
 
 

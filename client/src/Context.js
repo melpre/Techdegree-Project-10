@@ -22,7 +22,8 @@ export class Provider extends Component {
         authenticatedUser,
         data: this.data,
         actions: { // add the actions property and object
-          signIn: this.signIn
+          signIn: this.signIn,
+          signOut: this.signOut
         }
     };
 
@@ -35,6 +36,7 @@ export class Provider extends Component {
   }
 
   // signIn() method retrieves registered user's credentials from api then logs them in upon submitting
+  // Persist returned user's record and store user's password in global state
   signIn = async (emailAddress, password) => {
     const user = await this.data.getUser(emailAddress, password);
     // If user is NOT null, update authenticatedUser state to value of user
@@ -50,6 +52,11 @@ export class Provider extends Component {
     console.log(user);
 
     return user;
+  }
+
+  // signOut() method removes authenticated user and password from global state and redirects user to '/'
+  signOut = () => {
+    this.setState({ authenticatedUser: null });
   }
 }
 

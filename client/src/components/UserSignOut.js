@@ -1,18 +1,21 @@
-/* STATELESS FUNCTIONAL COMPONENT */
+/* STATELESS FUNCTION COMPONENT */
 
-// Import React
-import React from 'react';
-
-// Import Components
-import Courses from './Courses.js';
+import React, { useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 
 // Declare function to render Header elements
-function UserSignOut() {
-    // Mark up of Header
+export default function UserSignOut ({ context }) {
+    // Component calls signOut() and updates state AFTER render (of Redirect component in return func)
+    // Call signOut() passed down from context
+    useEffect(() => context.actions.signOut());
+
+    // Redirect user to '/'
     return (
-        <Courses />
+        <Redirect to="/" />
     );
 }
 
-export default UserSignOut;
+
+
+
 

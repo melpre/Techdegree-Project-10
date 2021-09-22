@@ -69,10 +69,10 @@ export default class UpdateCourse extends Component {
                     <React.Fragment>
                         <div className="main--flex">
                             <div>
-                                <label htmlFor="courseTitle">Course Title</label>
+                                <label htmlFor="title">Course Title</label>
                                 <input 
-                                id="courseTitle" 
-                                name="courseTitle" 
+                                id="title" 
+                                name="title" 
                                 type="text" 
                                 value={this.state.title}
                                 onChange={this.change} />
@@ -80,10 +80,10 @@ export default class UpdateCourse extends Component {
                                 {/* Render instructor name via Context component */}
                                 <p>By {authUser.firstName} {authUser.lastName}</p> 
 
-                                <label htmlFor="courseDescription">Course Description</label>
+                                <label htmlFor="description">Course Description</label>
                                 <textarea 
-                                id="courseDescription" 
-                                name="courseDescription"
+                                id="description" 
+                                name="description"
                                 type="text"
                                 value={this.state.description}
                                 onChange={this.change} />

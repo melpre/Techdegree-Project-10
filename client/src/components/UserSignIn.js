@@ -89,8 +89,6 @@ export default class UserSignIn extends Component {
                         return { errors: [ 'Sign-in was unsuccessful' ] };
                     });
                 } else {
-                    // !NOT DONE! persist returned user's record and store user's password in global state
-                    
                     this.props.history.push(`/`);
                 }
             })

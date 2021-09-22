@@ -130,6 +130,10 @@ export default class UserSignUp extends Component {
                     this.setState({ errors }); // update errors state to returned errors from api
                 } else { // else if user is successfully created and sent to api, display log msg:
                     console.log(`${emailAddress} is successfully signed up and authenticated!`);
+                    context.actions.signIn(emailAddress, password) // sets authenticated user in state
+                        .then(() => {
+                            this.props.history.push('/')
+                        });
                 }
             })
             .catch( err => { // handle errors (rejected promises) from server side
