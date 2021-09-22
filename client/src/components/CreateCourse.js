@@ -1,6 +1,5 @@
 /////////////// WORK IN PROGRESS:
-        /////// Issue 1 - On changes in title and description input fields not populating
-        /////// Issue 2 - New course data not being received by api due to 401 authorization error
+        /////// Issue 1 - New course data not being received by api due to 401 authorization error
 
 
 /* STATEFUL CLASS COMPONENT */
