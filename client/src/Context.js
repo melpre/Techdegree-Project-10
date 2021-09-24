@@ -10,16 +10,25 @@ export class Provider extends Component {
       super();
       this.data = new Data();
       this.state = {
-        authenticatedUser: null
+        authenticatedUser: null,
+        emailAddress: '',
+        password: '',
       }
   }
 
   render() {
-    // Extract authenticatedUser from this.state
-    const { authenticatedUser } = this.state;
+    // Extract authenticatedUser, email and password from this.state
+    const { 
+      authenticatedUser,
+      emailAddress,
+      password
+    } = this.state;
+
     // Declare var 'value' to equal an object and assign it the utility methods of the Data class
     const value = {
         authenticatedUser,
+        emailAddress,
+        password,
         data: this.data,
         actions: { // add the actions property and object
           signIn: this.signIn,
@@ -41,15 +50,20 @@ export class Provider extends Component {
     const user = await this.data.getUser(emailAddress, password);
     // If user is NOT null, update authenticatedUser state to value of user
     if (user !== null) {
+      // this.setState({authenticatedUser: user});
       this.setState(() => {
         return {
-          authenticatedUser: user
+          authenticatedUser: user,       // set state of user
+          emailAddress: emailAddress,    // set state of user's email
+          password: password             // set state of user's password
         };
       });
+      // LOG STATEMENTS
+      console.log(user);
+      // // store user in localStorage
+      // localStorage.setItem('emailAddress', user.emailAddress);
+      // console.log(localStorage);
     }
-    
-    // LOG STATEMENTS
-    console.log(user);
 
     return user;
   }

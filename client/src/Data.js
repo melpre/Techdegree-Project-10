@@ -36,7 +36,7 @@ export default class Data {
 
   // getUser() makes GET request to /users endpoint, and returns JSON object containing user credentials.
   // To authenticate user using credentials, set requiresAuth param to 'true' and credentials to
-  // properties 'username' and 'password' from credentials object.
+  // properties 'emailAddress' and 'password' from credentials object.
   async getUser(emailAddress, password) {
     const response = await this.api('/users', 'GET', null, true, { emailAddress, password });
     if (response.status === 200) {

@@ -111,8 +111,8 @@ export default class CreateCourse extends Component {
         // Destructure props to extract context from this.props
         const { context } = this.props;
         const authUser = context.authenticatedUser;
-        
-        // LOG STATEMENTS
+        const authEmail = context.emailAddress;
+        const authPass = context.password;
 
         // Destructure state object and unpack the following:
         const {
@@ -133,7 +133,7 @@ export default class CreateCourse extends Component {
 
         // Call createCourse() and pass in new course data AND authenticated user's credentials
         // User credentials MUST PASS auth-handler middleware in api
-        context.data.createCourse(course, authUser, authUser.emailAddress, authUser.password)
+        context.data.createCourse(course, authUser, authEmail, authPass)
             .then( errors => { // chain then() to see if api returns status 400 and errors array
                 if (errors.length) { // if errors are present
                     this.setState({ errors }); // update errors state to returned errors from api
@@ -144,6 +144,12 @@ export default class CreateCourse extends Component {
             .catch( err => { // handle errors (rejected promises) from server side
                 console.log(err);
             })
+    
+        // LOG STATEMENTS
+        console.log(course);
+        console.log(authUser);
+        console.log(authEmail);
+        console.log(authPass);
     }
 
     // cancel() function re-directs user back to '/' when cancel button clicked

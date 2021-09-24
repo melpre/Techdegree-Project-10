@@ -86,12 +86,18 @@ export default class UserSignIn extends Component {
             .then( user => {
                 if (user === null) { // also means request status response is 401
                     this.setState(() => {
-                        return { errors: [ 'Sign-in was unsuccessful' ] };
+                        return { 
+                            errors: [ 'Sign-in was unsuccessful' ],
+                        };
                     });
                 } else {
                     this.props.history.push(`/`);
                 }
             })
+        
+        // LOG STATEMENTS
+        // console.log(emailAddress);
+        // console.log(password);
     }
 
     // cancel() function re-directs user back to '/' when cancel button clicked
