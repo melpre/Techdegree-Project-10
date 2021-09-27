@@ -65,9 +65,11 @@ export default class Data {
   }
 
   // createCourse() makes POST request, sending new course data to the /courses endpoint.
-  async createCourse(course, user, emailAddress, password) {
+  async createCourse(course, emailAddress, password) {
+    // Fetch course data based on user's email address
+    
     // Send Course data along with header options
-    const response = await this.api('/courses', 'POST', { course, user }, true, { emailAddress, password });
+    const response = await this.api('/courses', 'POST', course, true, { emailAddress, password });
     if (response.status === 201) {
       return [];
     } else if (response.status === 400) {

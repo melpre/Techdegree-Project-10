@@ -21,7 +21,7 @@ export default function Form(props) {
 
   return (
     <div>
-      {/* <ErrorsDisplay errors={errors} /> */}
+      <ErrorsDisplay errors={errors} />
       <form onSubmit={handleSubmit}>
         {elements()}
         <div className="pad-bottom">

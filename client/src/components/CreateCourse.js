@@ -1,5 +1,8 @@
-/////////////// WORK IN PROGRESS:
-        /////// Issue 1 - New course data not being received by api due to 401 authorization error
+/****** WORK IN PROGRESS ******/
+
+// 9/24/21 Issue - New course data rejected by api due to 400 error ("Course.userId cannot be null")
+                   // How to add user ID associated with authorized user??
+                   // Two separate databases
 
 
 /* STATEFUL CLASS COMPONENT */
@@ -14,6 +17,7 @@ export default class CreateCourse extends Component {
         description: '',
         estimatedTime: '',
         materialsNeeded: '',
+        // userId: '',
         errors: []
     }
 
@@ -104,9 +108,10 @@ export default class CreateCourse extends Component {
         // 1) When 'Create Course' button is clicked, store values from input fields
         // 2) Store authenticated user credentials (from context)
         // 3) Before sending a POST request to API, two conditions must me met:
+                // If authenticated user matches, send POST request 
                 // If one or more values are invalid (e.g. blank or incorrect value type), trigger display of Validation Errors message
-                // If all values are valid, check to see if authenticated user matches existing user in api
-                    // If authenticated user matches, send POST request 
+                // If all values are valid, accept POST request
+
     submit = () => {
         // Destructure props to extract context from this.props
         const { context } = this.props;
@@ -120,20 +125,23 @@ export default class CreateCourse extends Component {
             description,
             estimatedTime,
             materialsNeeded,
+            // userId
         } = this.state;
 
         // Define new course data entered by authenticated user
         // New course data will be passed to createCourse() function in <Data> component
         const course = {
-        title,
-        description,
-        estimatedTime,
-        materialsNeeded
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded,
+            // userId
         };
 
         // Call createCourse() and pass in new course data AND authenticated user's credentials
         // User credentials MUST PASS auth-handler middleware in api
-        context.data.createCourse(course, authUser, authEmail, authPass)
+        // context.data.createCourse(course, authUser, authEmail, authPass) //// is authUser a necessary argument to pass in??
+        context.data.createCourse(course, authEmail, authPass)
             .then( errors => { // chain then() to see if api returns status 400 and errors array
                 if (errors.length) { // if errors are present
                     this.setState({ errors }); // update errors state to returned errors from api

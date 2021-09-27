@@ -17,6 +17,7 @@ export default function CourseDetail() {
     const [estimatedTime, setEstimatedTime] = useState('');
     const [instructor, setInstructor] = useState('');
     const [materialsNeeded, setMaterialsNeeded] = useState('');
+    // const [userId, setUserId] = useState('');
 
     useEffect(() => {
         // CONDITIONAL: if course ID exists, fetch data
@@ -39,7 +40,10 @@ export default function CourseDetail() {
                 setEstimatedTime(estimatedTime);
                 setInstructor(instructor);
                 setMaterialsNeeded(materialsNeeded);
-            } catch (error) { //Catch any errors thrown from the fetch call
+                // setUserId(userId);
+
+            //Catch any errors thrown from the fetch call
+            } catch (error) { 
                 return console.log(error);
             }
         }
@@ -50,7 +54,7 @@ export default function CourseDetail() {
     // console.log(currentURL);
     // console.log(title);
     // console.log(description);
-    // console.log(id);
+    // console.log(userId);
     // console.log(instructor);
     // console.log(materialsNeeded);
 
