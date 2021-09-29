@@ -57,6 +57,8 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
     const newCourse = await Course.create({ 
         title: req.body.title,
         description: req.body.description,
+        estimatedTime: req.body.estimatedTime, // 9/28/21: added estimatedTime prop
+        materialsNeeded: req.body.materialsNeeded, // 9/28/21: added materialsNeeded prop
         userId: req.body.userId,
     });
     // log new course

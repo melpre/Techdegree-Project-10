@@ -20,7 +20,7 @@ export default class UpdateCourse extends Component {
 
     // componentDidMount() method is called immediately after UpdateCourse component is added to DOM
     componentDidMount() {
-        // Declare var to hold url param 'id'
+        // Declare var to store url param 'id'
         const currentURL = window.location.href;
         const id = currentURL.substring(30, 32);
 
@@ -41,15 +41,15 @@ export default class UpdateCourse extends Component {
                     materialsNeeded: materialsNeeded,
                     // errors: errors
                 });
-                // LOG STATEMENT
-                // console.log(title);
-                // console.log(errors);
             })
             .catch(error => { //catch any errors thrown from the fetch call
                 console.log(error);
-                return error;
+                return this.setState({
+                    errors: error
+                });
             });
     }
+
 
     render() {
         // Extract authenticatedUser state from this.props (passed down from Context & props)
@@ -62,7 +62,7 @@ export default class UpdateCourse extends Component {
                 <h2>Update Course</h2>
                 <Form
                     cancel={this.cancel}
-                    // errors={errors}
+                    errors={this.state.errors}
                     submit={this.submit}
                     submitButtonText="Update Course"
                     elements={() => (
@@ -128,6 +128,9 @@ export default class UpdateCourse extends Component {
     submit = () => {
         // Destructure props to extract context from this.props
         const { context } = this.props;
+        // const authUser = context.authenticatedUser;
+        const authEmail = context.authenticatedUser.emailAddress;
+        const authPass = context.authenticatedUser.password;
 
         // Destructure state object and unpack the following:
         const {
@@ -148,12 +151,12 @@ export default class UpdateCourse extends Component {
 
         // Call updateCourse() and pass in new course data AND authenticated user's credentials
         // User credentials MUST PASS auth-handler middleware in api
-        context.data.updateCourse(course)
+        context.data.updateCourse(course, authEmail, authPass)
             .then( errors => { // chain then() to see if api returns status 400 and errors array
                 if (errors.length) { // if errors are present
                     this.setState({ errors }); // update errors state to returned errors from api
                 } else { // else if new course is successfully created and sent to api, display log msg:
-                    console.log(`${title} is successfully added!`);
+                    console.log(`${title} is successfully updated!`);
                 }
             })
             .catch( err => { // handle errors (rejected promises) from server side

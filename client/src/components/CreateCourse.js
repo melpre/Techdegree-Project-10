@@ -17,7 +17,7 @@ export default class CreateCourse extends Component {
         description: '',
         estimatedTime: '',
         materialsNeeded: '',
-        // userId: '',
+        userId: '', // how do I retrieve this data???
         errors: []
     }
 
@@ -105,9 +105,9 @@ export default class CreateCourse extends Component {
 
     // submit() function creates new course associated with authenticated user
     // WORKFLOW OF SUBMIT FUNCTION:
-        // 1) When 'Create Course' button is clicked, store values from input fields
-        // 2) Store authenticated user credentials (from context)
-        // 3) Before sending a POST request to API, two conditions must me met:
+        // 1) When 'Create Course' button is clicked, store authenticated user credentials (from context)
+        // 2) Unpack state object and store changes in values from input fields
+        // 3) Before sending a POST request to API, conditions must be met:
                 // If authenticated user matches, send POST request 
                 // If one or more values are invalid (e.g. blank or incorrect value type), trigger display of Validation Errors message
                 // If all values are valid, accept POST request
@@ -115,7 +115,7 @@ export default class CreateCourse extends Component {
     submit = () => {
         // Destructure props to extract context from this.props
         const { context } = this.props;
-        const authUser = context.authenticatedUser;
+        // const authUser = context.authenticatedUser;
         const authEmail = context.emailAddress;
         const authPass = context.password;
 
@@ -125,7 +125,7 @@ export default class CreateCourse extends Component {
             description,
             estimatedTime,
             materialsNeeded,
-            // userId
+            userId
         } = this.state;
 
         // Define new course data entered by authenticated user
@@ -135,7 +135,7 @@ export default class CreateCourse extends Component {
             description,
             estimatedTime,
             materialsNeeded,
-            // userId
+            userId
         };
 
         // Call createCourse() and pass in new course data AND authenticated user's credentials
@@ -147,6 +147,7 @@ export default class CreateCourse extends Component {
                     this.setState({ errors }); // update errors state to returned errors from api
                 } else { // else if new course is successfully created and sent to api, display log msg:
                     console.log(`${title} is successfully added!`);
+                    this.props.history.push('/');
                 }
             })
             .catch( err => { // handle errors (rejected promises) from server side
@@ -155,7 +156,7 @@ export default class CreateCourse extends Component {
     
         // LOG STATEMENTS
         console.log(course);
-        console.log(authUser);
+        // console.log(authUser);
         console.log(authEmail);
         console.log(authPass);
     }

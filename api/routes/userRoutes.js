@@ -20,7 +20,8 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
     res.json({ 
         email: user.emailAddress,
         firstName: user.firstName,
-        lastName: user.lastName 
+        lastName: user.lastName,
+        userId: user.id // Add user ID prop to be returned when client fetches data from api 
     }).status(200);
 }));
 

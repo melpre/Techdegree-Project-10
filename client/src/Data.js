@@ -66,10 +66,24 @@ export default class Data {
 
   // createCourse() makes POST request, sending new course data to the /courses endpoint.
   async createCourse(course, emailAddress, password) {
-    // Fetch course data based on user's email address
-    
     // Send Course data along with header options
     const response = await this.api('/courses', 'POST', course, true, { emailAddress, password });
+    if (response.status === 201) {
+      return [];
+    } else if (response.status === 400) {
+      return response.json().then(data => {
+        console.log(data.errors);
+        return data.errors;
+      });
+    } else {
+      throw new Error();
+    }
+  }
+
+  // updateCourse() makes a PUT request, sending updated course data to the /courses endpoint.
+  async updateCourse(course, emailAddress, password) {
+    // Update Course data along with header options
+    const response = await this.api('/courses', 'PUT', course, true, { emailAddress, password });
     if (response.status === 201) {
       return [];
     } else if (response.status === 400) {
