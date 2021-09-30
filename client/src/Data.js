@@ -64,7 +64,7 @@ export default class Data {
     }
   }
 
-  // createCourse() makes POST request, sending new course data to the /courses endpoint.
+  // createCourse() makes POST request, sending new course data to the /courses endpoint
   async createCourse(course, emailAddress, password) {
     // Send Course data along with header options
     const response = await this.api('/courses', 'POST', course, true, { emailAddress, password });
@@ -80,11 +80,11 @@ export default class Data {
     }
   }
 
-  // updateCourse() makes a PUT request, sending updated course data to the /courses endpoint.
-  async updateCourse(course, emailAddress, password) {
+  // updateCourse() makes a PUT request, sending updated course data to the /courses/:id endpoint
+  async updateCourse(id, course, emailAddress, password) {
     // Update Course data along with header options
-    const response = await this.api('/courses', 'PUT', course, true, { emailAddress, password });
-    if (response.status === 201) {
+    const response = await this.api(`/courses/${id}`, 'PUT', course, true, { emailAddress, password });
+    if (response.status === 204) {
       return [];
     } else if (response.status === 400) {
       return response.json().then(data => {
@@ -95,6 +95,12 @@ export default class Data {
       throw new Error();
     }
   }
+
+  // deleteCourse() makes a DELETE request to the /courses endpoint
+  // async deleteCourse(id, course) {
+  //   // Delete Course data including header options
+  //   const response = await this.api(`/courses/${id}`, 'DELETE', course, true, )
+  // }
 
 }
 
