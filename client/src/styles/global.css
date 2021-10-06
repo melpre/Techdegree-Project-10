@@ -29,8 +29,10 @@ a {
     padding: 0 1rem;
 }
 header {
-    background: #57496e;
-    color: #fff;
+    /* background: #57496e; */
+    background-image: url("../images/wp2561062-simple-background.jpeg"); /* changed */
+    /* color: #fff; */
+    color: #423D4A; /* changed */
     padding: 1rem 0;
     margin-bottom: 2rem;
 }
@@ -47,7 +49,8 @@ header li {
     font-size: .8rem;
 }
 header nav a {
-    color: #dbd;
+    /* color: #dbd; */
+    color: #423D4A; /* changed */
 }
 header nav a:hover {
     color: #fff;
@@ -62,7 +65,8 @@ header nav a:hover {
     margin-left: .5rem;
 }
 .course--module {
-    background: #7c689b;
+    /* background: #7c689b; */
+    background-image: url("../images/wp2561062-simple-background.jpeg"); /* changed */
     border-radius: .5rem;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
@@ -80,8 +84,10 @@ header nav a:hover {
     font-size: 1.25rem;
 }
 .course--add--module {
-    background: #ddd9e4;
-    color: #57496e;
+    /* background: #d2dce6; */
+    background: #bde6f0; /* changed */
+    /* color: #57496e; */
+    color: #423D4A; /* changed */
     font-weight: 300;
     font-size: 1.25rem;
 }

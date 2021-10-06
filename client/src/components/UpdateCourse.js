@@ -1,8 +1,6 @@
 ////////// NOTES //////////
-// Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a 
-// memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the 
-// componentWillUnmount method.
-    /// Try: add componentWillUnmount() and set isMounted React logic
+// Bug: User log in is successful, but when '/courses/:id/update is entered as url path and belongs to user, Forbidden page
+// is still rendered. Why?
 
 ////////// TO-DO //////////
 // Code clean up
@@ -96,6 +94,76 @@ export default class UpdateCourse extends Component {
         // LOG STATEMENT
         console.log('Authorized User ID: ' + authUser.userId);
 
+        // Destructure state object and unpack the following:
+        const {
+            userId,
+            isOwner
+        } = this.state;
+
+        // LOG STATEMENT
+        console.log('User ID: ' + userId);
+
+        // Mark up of Update Course form
+        // E.C. version redirect to '/forbidden' if CURRENT USER is NOT owner of course
+        return (
+            <div className="wrap">
+                {/* { authUser.userId === userId ? ( */}
+                { isOwner ? (
+                    <React.Fragment>
+                        <h2>Update Course</h2>
+                        <Form
+                            cancel={this.cancel}
+                            errors={this.state.errors}
+                            submit={this.submit}
+                            submitButtonText="Update Course"
+                            elements={() => (
+                            <React.Fragment>
+                                <div className="main--flex">
+                                    <div>
+                                        <label htmlFor="title">Course Title</label>
+                                        <input 
+                                        id="title" 
+                                        name="title" 
+                                        type="text" 
+                                        value={this.state.title}
+                                        onChange={this.change} />
+
+                                        {/* Render instructor name via Context component */}
+                                        <p>By {authUser.firstName} {authUser.lastName}</p> 
+
+                                        <label htmlFor="description">Course Description</label>
+                                        <textarea 
+                                        id="description" 
+                                        name="description"
+                                        type="text"
+                                        value={this.state.description}
+                                        onChange={this.change} />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="estimatedTime">Estimated Time</label>
+                                        <input 
+                                        id="estimatedTime" 
+                                        name="estimatedTime" 
+                                        type="text" 
+                                        value={this.state.estimatedTime}
+                                        onChange={this.change} />
+
+                                        <label htmlFor="materialsNeeded">Materials Needed</label>
+                                        <textarea 
+                                        id="materialsNeeded" 
+                                        name="materialsNeeded"
+                                        type="text"
+                                        value={this.state.materialsNeeded}
+                                        onChange={this.change} />
+                                    </div>
+                                </div>
+                            </React.Fragment>
+                            )} />
+                    </React.Fragment>
+                ) : (<Redirect to='/forbidden' />)}
+            </div>
+        );
+
         // Mark up of Update Course form
         // return (
         //     <div className="wrap">
@@ -155,74 +223,6 @@ export default class UpdateCourse extends Component {
         // const currentURL = window.location.href;
         // const urlParam = currentURL.substring(30, 32);
 
-        // Destructure state object and unpack the following:
-        const {
-            // id,
-            userId
-        } = this.state;
-
-        // LOG STATEMENT
-        console.log('User ID: ' + userId);
-
-        // Mark up of Update Course form
-        // E.C. version redirect to '/forbidden' if CURRENT USER is NOT owner of course
-        return (
-            <div className="wrap">
-                { authUser.userId === userId ? (
-                    <React.Fragment>
-                        <h2>Update Course</h2>
-                        <Form
-                            cancel={this.cancel}
-                            errors={this.state.errors}
-                            submit={this.submit}
-                            submitButtonText="Update Course"
-                            elements={() => (
-                            <React.Fragment>
-                                <div className="main--flex">
-                                    <div>
-                                        <label htmlFor="title">Course Title</label>
-                                        <input 
-                                        id="title" 
-                                        name="title" 
-                                        type="text" 
-                                        value={this.state.title}
-                                        onChange={this.change} />
-
-                                        {/* Render instructor name via Context component */}
-                                        <p>By {authUser.firstName} {authUser.lastName}</p> 
-
-                                        <label htmlFor="description">Course Description</label>
-                                        <textarea 
-                                        id="description" 
-                                        name="description"
-                                        type="text"
-                                        value={this.state.description}
-                                        onChange={this.change} />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="estimatedTime">Estimated Time</label>
-                                        <input 
-                                        id="estimatedTime" 
-                                        name="estimatedTime" 
-                                        type="text" 
-                                        value={this.state.estimatedTime}
-                                        onChange={this.change} />
-
-                                        <label htmlFor="materialsNeeded">Materials Needed</label>
-                                        <textarea 
-                                        id="materialsNeeded" 
-                                        name="materialsNeeded"
-                                        type="text"
-                                        value={this.state.materialsNeeded}
-                                        onChange={this.change} />
-                                    </div>
-                                </div>
-                            </React.Fragment>
-                            )} />
-                    </React.Fragment>
-                ) : (<Redirect to='/forbidden' />)}
-            </div>
-        );
     }
 
     // change() function updates elements and their values on change events
