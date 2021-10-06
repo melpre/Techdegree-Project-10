@@ -1,5 +1,11 @@
+////////// NOTES //////////
+
+////////// TO-DO //////////
+// Code clean up
+
+
 import React, { Component } from 'react';
-// import Cookies from 'js-cookie'; // import JavaScript cookie library
+import Cookies from 'js-cookie'; // import JavaScript cookie library (E.C. #2)
 import Data from './Data'; // import Data.js containing helper class
 
 const Context = React.createContext();
@@ -9,19 +15,22 @@ export class Provider extends Component {
   constructor() {
       super();
       this.data = new Data();
+      this.cookie = Cookies.get('authenticatedUser'); // initialize cookie state (E.C. #2)
       this.state = {
-        authenticatedUser: null,
+        authenticatedUser: this.cookie ? JSON.parse(this.cookie) : null, // initial state will either be authenticatedUser cookie or null (E.C. #2)
         emailAddress: '',
         password: '',
-      }
+        userId: ''
+      };
   }
 
   render() {
-    // Extract authenticatedUser, email, password, userId from this.state
+    // Extract authenticatedUser, email, password from this.state
     const { 
       authenticatedUser,
       emailAddress,
       password,
+      userId
     } = this.state;
 
     // Declare var 'value' to equal an object and assign it the utility methods and props of the Data class
@@ -29,6 +38,7 @@ export class Provider extends Component {
         authenticatedUser,
         emailAddress,
         password,
+        userId,   // add userId state to context value 
         data: this.data,
         actions: { // add the actions property and object
           signIn: this.signIn,
@@ -55,23 +65,19 @@ export class Provider extends Component {
           authenticatedUser: user,       // set state of user
           emailAddress: emailAddress,    // set state of user's email
           password: password,            // set state of user's password
+          // userId: userId                 // set state of user's ID
         };
       });
-
-      // LOG STATEMENTS
-      // console.log(user);
-
-      // store user in localStorage
-      // localStorage.setItem('emailAddress', user.emailAddress);
-      // console.log(localStorage);
+      // Set 'authenticatedUser' cookie to value stored in user object (E.C. #2)
+      Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
     }
-
     return user;
   }
 
   // signOut() method removes authenticated user and password from global state and redirects user to '/'
   signOut = () => {
     this.setState({ authenticatedUser: null });
+    Cookies.remove('authenticatedUser'); // remove 'authenticatedUser' cookie on signOut() (E.C. #2)
   }
 }
 

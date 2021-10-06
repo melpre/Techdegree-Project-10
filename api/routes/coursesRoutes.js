@@ -47,8 +47,17 @@ router.get('/courses/:id', asyncHandler(async (req, res) => {
         ],
     });
     // log corresponding course
-    console.log(course);
-    res.json({ course }).status(200);
+    // console.log(course);
+    // res.json({ course }).status(200);
+
+    // Test to get 404 error
+    if (!course) {
+        return res.status(404).json({ error: 'Course not found' })
+    } else {
+        // log corresponding course
+        console.log(course);
+        return res.json({ course }).status(200);
+    }
 }));
 
 // route creates new Course

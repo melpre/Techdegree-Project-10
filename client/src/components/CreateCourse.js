@@ -1,6 +1,8 @@
-////////// NOTES & TO-DO //////////
+////////// NOTES //////////
 // Functionality works
 // Does it need refactoring?
+
+////////// TO-DO //////////
 // Code clean-up
 
 /* STATEFUL CLASS COMPONENT */

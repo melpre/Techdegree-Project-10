@@ -78,6 +78,9 @@ export default class UserSignIn extends Component {
         // Destructure props to extract context from this.props
         const { context } = this.props;
 
+        // (E.C. #3) Destructure 'from' and extract previous url path BEFORE being re-directed to '/signin' from un-authenticated user
+        const { from } = this.props.location.state || { from: { pathname: '/' } };
+
         // Destructure state object and unpack the following:
         const { emailAddress, password } = this.state;
 
@@ -91,7 +94,7 @@ export default class UserSignIn extends Component {
                         };
                     });
                 } else {
-                    this.props.history.push(`/`);
+                    this.props.history.push(from); // push url path previously accessed before user was authenticated (E.C. #3)
                 }
             })
         

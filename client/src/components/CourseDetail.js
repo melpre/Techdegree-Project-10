@@ -1,38 +1,51 @@
+////////// NOTES //////////
+// deleteCourse() functions correctly, but error logged in console: Data.js:34 Fetch failed loading: DELETE "http://localhost:5000/api/courses/15".
+// api @ Data.js:34
+// deleteCourse @ Data.js:100
+// onDelete @ CourseDetail.js:113
+
+////////// TO-DO //////////
+// Code clean up
+
+
 /* STATEFUL FUNCTION COMPONENT */
 
 // Import React libraries and hooks
 import React, { useState, useEffect } from 'react';
-// import React, { useState, useEffect, useContext } from 'react'; //import useContext to subscribe to withContext()
-import { NavLink } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import { NavLink, Redirect } from 'react-router-dom';
 
-// Import Context
-// import withContext from '../Context';
+// Declare stateful function component to retrieve a course's details from API data
+export default function CourseDetail(props) {
+    // Extract context (now that CourseDetail is subscribed to Context) from props
+    const { context } = props;
 
-
-// Declare stateful functional component to retrieve a course's details from API data
-export default function CourseDetail() {
-    // call useContext to return context object
-    // const { props } = useContext(withContext);
-
-    // Declare var to hold url param 'id'
-    const currentURL = window.location.href;
-    const id = currentURL.substring(30);
+    // Store authenticated user data in new var 'authUser'
+    const authUser = context.authenticatedUser;
+    const authEmail = context.emailAddress;
+    const authPass = context.password;
 
     // Define useState and store values
+    const [id, setId] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [estimatedTime, setEstimatedTime] = useState('');
     const [instructor, setInstructor] = useState('');
     const [materialsNeeded, setMaterialsNeeded] = useState('');
     const [userId, setUserId] = useState('');
+    const [error, setError] = useState(''); // define 'error' state
 
-    useEffect(() => {
-        // CONDITIONAL: if course ID exists, fetch data
+    // call useEffect() hook to update course state
+    useEffect((props) => {
         async function fetchCourse()  {
+            // Declare var to hold url param 'id'
+            const currentURL = window.location.href;
+            const urlParam = currentURL.substring(30);
             try {
-                const response = await fetch(`http://localhost:5000/api/courses/${id}`);
+                const response = await fetch(`http://localhost:5000/api/courses/${urlParam}`);
                 const data = await response.json();
                 const {
+                    id,
                     title, 
                     description, 
                     estimatedTime, 
@@ -41,7 +54,8 @@ export default function CourseDetail() {
                     userId
                 } = data.course;
 
-                //Set state to each destructured element
+                // Set state to each destructured element
+                setId(id);
                 setTitle(title);
                 setDescription(description);
                 setEstimatedTime(estimatedTime);
@@ -49,9 +63,11 @@ export default function CourseDetail() {
                 setMaterialsNeeded(materialsNeeded);
                 setUserId(userId);
 
-            //Catch any errors thrown from the fetch call
-            } catch (error) { 
-                return console.log(error);
+            // Catch any errors thrown from the fetch call
+            } catch (error) {
+                setError(error);
+                // console.log(error);
+                return error;
             }
         }
         fetchCourse();
@@ -64,61 +80,138 @@ export default function CourseDetail() {
     // console.log(instructor);
     // console.log(materialsNeeded);
     // console.log(userId);
+    // console.log(authUser);
 
-    // Format Materials Needed into List
-    function formatMaterialsList(string) {
-        if (materialsNeeded != null) {
-            const listMaterials = string.split('*'||',');
-            listMaterials.shift();
-            return listMaterials.map((listItem, i) => <li key={i}>{listItem}</li>)
-        }
-    };
+    // Delete Course on click
+    function onDelete() {
+        // Store course props back into course
+        const course = {
+            id,
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded,
+            userId
+        };
 
-    // Delete course on click
-    // function deleteCourseOnClick(id) {
+        // Call deleteCourse() from context
+        context.data.deleteCourse(id, course, authEmail, authPass)
+            .then( errors => { // chain then() to see if api returns status 403 and errors array
+                if (errors.length) { // if errors are present
+                    this.setState({ errors }); // update errors state to returned errors from api
+                } else { // else if new course is successfully deleted from api, display log msg:
+                    console.log(`${title} is successfully deleted!`);
+                    props.history.push('/');
+                }
+            })
+            .catch( err => { // handle errors (rejected promises) from server side
+            console.log(err);
+            })
 
-    // }
+        // LOG STATEMENTS
+        // console.log(authUser);
+        // console.log(authEmail);
+        // console.log(authPass);
+        // console.log(userId);
+        // console.log(authUserId);
+        // console.log(course);
+    }
 
     // Mark up of returned course's details
+    // return (
+    //     <main>
+    //         <div className="actions--bar">
+    //             <div className="wrap">
+    //                 {/* Display Update and Delete buttons IF USER is authenticated */}
+    //                 {authUser && authUser.userId === userId ? (
+    //                     <React.Fragment>
+    //                         <NavLink exact to={`/courses/${id}/update`} className="button">Update Course</NavLink>
+    //                         <button className="button" onClick={onDelete}>Delete Course</button>
+    //                         <NavLink exact to="/" className="button button-secondary">Return to List</NavLink>
+    //                     </React.Fragment>
+    //                 ) : (
+    //                     <NavLink exact to="/" className="button button-secondary">Return to List</NavLink>
+    //                 )}
+    //             </div>
+    //         </div>
+            
+    //         <div className="wrap">
+    //             <h2>Course Detail</h2>
+    //             <form>
+    //                 <div className="main--flex">
+    //                     <div>
+    //                         <h3 className="course--detail--title">Course</h3>
+    //                         <h4 className="course--name">{title}</h4>
+    //                         <p>By {instructor.firstName} {instructor.lastName}</p>
+    //                         <ReactMarkdown children={description} />
+    //                     </div>
+
+    //                     <div>
+    //                         <h3 className="course--detail--title">Estimated Time</h3>
+    //                         <p>{estimatedTime}</p>
+    //                         <h3 className="course--detail--title">Materials Needed</h3>
+    //                         <ul className="course--detail--list">
+    //                             <ReactMarkdown children={materialsNeeded} />
+    //                         </ul>
+    //                     </div>
+    //                 </div>
+    //             </form>
+    //         </div>
+    //     </main>
+    // );
+
+    // Mark up of returned course's details
+    // E.C. version redirect to '/notfound' if api sends 404 NOT FOUND error
     return (
         <main>
-            <div className="actions--bar">
-                <div className="wrap">
-                    {/* Display Update and Delete buttons IF USER is authenticated */}
-                    <NavLink exact to={`/courses/${id}/update`} className="button">Update Course</NavLink>
-                    <NavLink exact to="/" className="button">Delete Course</NavLink>
-                    {/* <NavLink exact to="/" className="button" onClick={deleteCourseOnClick(id)}>Delete Course</NavLink> */}
-                    <NavLink exact to="/" className="button button-secondary">Return to List</NavLink>
-                </div>
-            </div>
-            
-            <div className="wrap">
-                <h2>Course Detail</h2>
-                <form>
-                    <div className="main--flex">
-                        <div>
-                            <h3 className="course--detail--title">Course</h3>
-                            <h4 className="course--name">{title}</h4>
-                            <p>By {instructor.firstName} {instructor.lastName}</p>
-                            <p>{description}</p>
-                        </div>
-
-                        <div>
-                            <h3 className="course--detail--title">Estimated Time</h3>
-                            <p>{estimatedTime}</p>
-                            <h3 className="course--detail--title">Materials Needed</h3>
-                            <ul className="course--detail--list">
-                                {formatMaterialsList(materialsNeeded)}
-                                {/* temporary formatting. RE-DO */}
-                                {/* {materialsNeeded}  */}
-                            </ul>
+            {error ? (
+                <Redirect to="/notfound" />
+            ) : (
+                <React.Fragment>
+                    <div className="actions--bar">
+                        <div className="wrap">
+                            {/* Display Update and Delete buttons IF USER is authenticated */}
+                            {authUser && authUser.userId === userId ? (
+                                <React.Fragment>
+                                    <NavLink exact to={`/courses/${id}/update`} className="button">Update Course</NavLink>
+                                    <button className="button" onClick={onDelete}>Delete Course</button>
+                                    <NavLink exact to="/" className="button button-secondary">Return to List</NavLink>
+                                </React.Fragment>
+                            ) : (
+                                <NavLink exact to="/" className="button button-secondary">Return to List</NavLink>
+                            )}
                         </div>
                     </div>
-                </form>
-            </div>
+            
+                    <div className="wrap">
+                        <h2>Course Detail</h2>
+                        <form>
+                            <div className="main--flex">
+                                <div>
+                                    <h3 className="course--detail--title">Course</h3>
+                                    <h4 className="course--name">{title}</h4>
+                                    <p>By {instructor.firstName} {instructor.lastName}</p>
+                                    <ReactMarkdown children={description} />
+                                </div>
+
+                                <div>
+                                    <h3 className="course--detail--title">Estimated Time</h3>
+                                    <p>{estimatedTime}</p>
+                                    <h3 className="course--detail--title">Materials Needed</h3>
+                                    <ul className="course--detail--list">
+                                        <ReactMarkdown children={materialsNeeded} />
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </React.Fragment>
+            )}
         </main>
-    );
-}
+    )
+};
+
+
 
 
 
