@@ -32,7 +32,7 @@ header {
     /* background: #57496e; */
     background-image: url("../images/wp2561062-simple-background.jpeg"); /* changed */
     /* color: #fff; */
-    color: #423D4A; /* changed */
+    color: #7c689b; /* changed */
     padding: 1rem 0;
     margin-bottom: 2rem;
 }
@@ -50,7 +50,7 @@ header li {
 }
 header nav a {
     /* color: #dbd; */
-    color: #423D4A; /* changed */
+    color: #7c689b; /* changed */
 }
 header nav a:hover {
     color: #fff;
@@ -118,7 +118,8 @@ header nav a:hover {
     line-height: 1.5;
 }
 .actions--bar {
-    background: #e9e5f0;
+    /* background: #e9e5f0; */
+    background: #e7f7f7; /* changed */
     padding: 1rem 0;
     margin: -2rem 0 2rem;
 }
@@ -173,7 +174,8 @@ textarea {
     min-height: 300px;
 }
 .button {
-    background: #7c689b;
+    /* background: #7c689b; */
+    background: #eeb3c9; /* changed */
     color: #fff;
     font-size: 1rem;
     padding: .75rem 1.5rem;
