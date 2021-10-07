@@ -3,6 +3,7 @@
 ////////// TO-DO //////////
 // Code clean up
 
+/* CONTEXT CLASS COMPONENT: */
 
 import React, { Component } from 'react';
 import Cookies from 'js-cookie'; // import JavaScript cookie library (E.C. #2)
@@ -65,7 +66,7 @@ export class Provider extends Component {
           authenticatedUser: user,       // set state of user
           emailAddress: emailAddress,    // set state of user's email
           password: password,            // set state of user's password
-          // userId: userId                 // set state of user's ID
+          userId: user.userId            // set state of user's ID *test: 10/6/21
         };
       });
       // Set 'authenticatedUser' cookie to value stored in user object (E.C. #2)

@@ -1,8 +1,5 @@
 ////////// NOTES //////////
-// deleteCourse() functions correctly, but error logged in console: Data.js:34 Fetch failed loading: DELETE "http://localhost:5000/api/courses/15".
-// api @ Data.js:34
-// deleteCourse @ Data.js:100
-// onDelete @ CourseDetail.js:113
+
 
 ////////// TO-DO //////////
 // Code clean up
@@ -118,50 +115,6 @@ export default function CourseDetail(props) {
     }
 
     // Mark up of returned course's details
-    // return (
-    //     <main>
-    //         <div className="actions--bar">
-    //             <div className="wrap">
-    //                 {/* Display Update and Delete buttons IF USER is authenticated */}
-    //                 {authUser && authUser.userId === userId ? (
-    //                     <React.Fragment>
-    //                         <NavLink exact to={`/courses/${id}/update`} className="button">Update Course</NavLink>
-    //                         <button className="button" onClick={onDelete}>Delete Course</button>
-    //                         <NavLink exact to="/" className="button button-secondary">Return to List</NavLink>
-    //                     </React.Fragment>
-    //                 ) : (
-    //                     <NavLink exact to="/" className="button button-secondary">Return to List</NavLink>
-    //                 )}
-    //             </div>
-    //         </div>
-            
-    //         <div className="wrap">
-    //             <h2>Course Detail</h2>
-    //             <form>
-    //                 <div className="main--flex">
-    //                     <div>
-    //                         <h3 className="course--detail--title">Course</h3>
-    //                         <h4 className="course--name">{title}</h4>
-    //                         <p>By {instructor.firstName} {instructor.lastName}</p>
-    //                         <ReactMarkdown children={description} />
-    //                     </div>
-
-    //                     <div>
-    //                         <h3 className="course--detail--title">Estimated Time</h3>
-    //                         <p>{estimatedTime}</p>
-    //                         <h3 className="course--detail--title">Materials Needed</h3>
-    //                         <ul className="course--detail--list">
-    //                             <ReactMarkdown children={materialsNeeded} />
-    //                         </ul>
-    //                     </div>
-    //                 </div>
-    //             </form>
-    //         </div>
-    //     </main>
-    // );
-
-    // Mark up of returned course's details
-    // E.C. version redirect to '/notfound' if api sends 404 NOT FOUND error
     return (
         <main>
             {error ? (

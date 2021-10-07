@@ -175,7 +175,7 @@ textarea {
 }
 .button {
     /* background: #7c689b; */
-    background: #eeb3c9; /* changed */
+    background: #63537d; /* changed */
     color: #fff;
     font-size: 1rem;
     padding: .75rem 1.5rem;
@@ -192,7 +192,8 @@ textarea {
     margin-bottom: 0;
 }
 .button:not(.button-secondary):hover {
-    background: #63537d;
+    /* background: #63537d; */
+    background: #eeb3c9; /* changed */
     cursor: pointer;
 }
 .button-secondary {

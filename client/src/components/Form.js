@@ -1,3 +1,5 @@
+/* STATELESS FUNCTION COMPONENT */
+
 import React from 'react';
 
 export default function Form(props) {
@@ -49,3 +51,6 @@ function ErrorsDisplay({ errors }) {
 
   return errorsDisplay;
 }
+
+
+

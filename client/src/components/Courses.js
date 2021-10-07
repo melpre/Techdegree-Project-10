@@ -4,9 +4,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
-
 // Declare stateful functional component to retrieve list of courses' titles from API data
-function Courses() {
+export default function Courses() {
     // Define useState and store values
     const [courses, setCourses] = useState([]);
   
@@ -44,4 +43,6 @@ function Courses() {
     );
   }
   
-  export default Courses;
+
+
+  
