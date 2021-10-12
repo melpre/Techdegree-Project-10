@@ -1,8 +1,3 @@
-////////// NOTES //////////
-
-////////// TO-DO //////////
-// Code clean up
-
 /* CONTEXT CLASS COMPONENT: */
 
 import React, { Component } from 'react';
@@ -12,7 +7,7 @@ import Data from './Data'; // import Data.js containing helper class
 const Context = React.createContext();
 
 export class Provider extends Component {
-  // Initialize new instance of Data class and assign it to a 'data' property
+  // Initialize new instance of Data class with data, cookie and state props
   constructor() {
       super();
       this.data = new Data();
@@ -34,7 +29,7 @@ export class Provider extends Component {
       userId
     } = this.state;
 
-    // Declare var 'value' to equal an object and assign it the utility methods and props of the Data class
+    // Declare var 'value' to equal an object and assign it state, the utility methods and props of the Data class and context actions
     const value = {
         authenticatedUser,
         emailAddress,
@@ -48,7 +43,7 @@ export class Provider extends Component {
     };
 
     return (
-    // Assign context Provider a value property equal to a value object to be shared throughout component tree
+    // Assign context Provider a value property equal to 'const value' to be shared throughout component tree
     <Context.Provider value={value}>
       {this.props.children}
     </Context.Provider>  
@@ -66,7 +61,7 @@ export class Provider extends Component {
           authenticatedUser: user,       // set state of user
           emailAddress: emailAddress,    // set state of user's email
           password: password,            // set state of user's password
-          userId: user.userId            // set state of user's ID *test: 10/6/21
+          userId: user.userId            // set state of user's ID
         };
       });
       // Set 'authenticatedUser' cookie to value stored in user object (E.C. #2)
@@ -85,12 +80,11 @@ export class Provider extends Component {
 export const Consumer = Context.Consumer;
 
 /**
- * A higher-order component that wraps the provided component in a Context Consumer component.
- * withContext automatically subscribes the component passed to it all
- * actions and context changes.
+ * withContext(Component) is a higher-order component that wraps the provided component in a Context Consumer component.
+ * It automatically subscribes the component passed to it all actions and context changes.
  * @param {class} Component - A React component.
  * @returns {function} A higher-order component.
- */
+ **/
 
 export default function withContext(Component) {
     return function ContextComponent(props) {

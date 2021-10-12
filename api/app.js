@@ -1,13 +1,3 @@
-/******************************************
-Treehouse FSJS Techdegree:
-project 10 - Full Stack App using React and a REST API
-by Melissa Preece
-I am aiming for the grade Exceeds Expectations but will accept Meets Expectations as well.
-
-// Extra Credit:
-- See files coursesRoutes.js (#3), userRoutes.js (#2), async-handler.js (#2), user.js (#1), auth-user.js (#3)
-******************************************/
-
 'use strict';
 
 // load modules
@@ -60,11 +50,11 @@ app.use((err, req, res, next) => {
 
   res.status(err.status || 500).json({
     message: err.message,
-    error: {},
+    error: {}, 
   });
 });
 
-// set our port
+// set up port
 app.set('port', process.env.PORT || 5000);
 
 // test database connection
@@ -77,7 +67,7 @@ app.set('port', process.env.PORT || 5000);
   }
 })();
 
-// start listening on our port
+// start listening on port
 const server = app.listen(app.get('port'), () => {
   console.log(`Express server is listening on port ${server.address().port}`);
 });

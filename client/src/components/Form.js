@@ -1,8 +1,11 @@
 /* STATELESS FUNCTION COMPONENT */
 
+// Note: Form component renders the Validation Errors display and receives prop values and actions from CreateCourse and UpdateCourse components
+
 import React from 'react';
 
 export default function Form(props) {
+  // Define prop values
   const {
     cancel,
     errors,

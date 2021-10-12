@@ -1,5 +1,3 @@
-// Extra Credit -- see lines 22 & 40, 79-93 and 99-110
-
 'use strict';
 
 const express = require('express');
@@ -121,4 +119,7 @@ router.delete('/courses/:id', authenticateUser, asyncHandler(async (req, res) =>
 }));
 
 module.exports = router;
+
+
+
 

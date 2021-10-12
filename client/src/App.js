@@ -1,14 +1,34 @@
 ////////// NOTES //////////
-// NotFound component renders without HeaderWithContext 
 
 
 ////////// TO-DO //////////
 
 
+/******************************************
+Treehouse FSJS Techdegree:
+project 10 - Full Stack App using React and a REST API
+by Melissa Preece
+I am aiming for the grade Exceeds Expectations but will accept Meets Expectations as well.
+
+// Extra Credit:
+// 1. Display user friendly messages
+      // See files: NotFound.js, Forbidden.js, and UnhandledError.js
+      // See file App.js, lines 77-80
+      // See files: CourseDetail.js lines 114-115 and UpdateCourse.js lines 66-75
+      // See file App.js, line 80
+      // See file UpdateCourse.js lines 57-59
+
+// 2. Persist user credentials
+      // See file Context.js
+
+// 3. Redirecting the user after successfully signing in
+      // See file PrivateRoute.js
+******************************************/
+
 // Import React libraries and stylesheets
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import './styles/reset.css'; // This has to be imported first BEFORE global.css (WHY??)
+import './styles/reset.css'; // This has to be imported first BEFORE global.css
 import './styles/global.css';
 
 // Import components
@@ -35,15 +55,16 @@ const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut); 
 const CreateCourseWithContext = withContext(CreateCourse);
 const UpdateCourseWithContext = withContext(UpdateCourse);
-const CourseDetailWithContext = withContext(CourseDetail); // connect Course Detail component to higher order func withContext()
+const CourseDetailWithContext = withContext(CourseDetail);
+const CoursesWithContext = withContext(Courses);
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
       <HeaderWithContext />
 
       <Switch>
-        <Route exact path="/" component={Courses} />
+        <Route exact path="/" component={CoursesWithContext} />
         <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
         <Route exact path="/courses/:id" component={CourseDetailWithContext} />
         <PrivateRoute exact path="/courses/:id/update" component={UpdateCourseWithContext} />
@@ -59,9 +80,8 @@ function App() {
       </Switch>
     </BrowserRouter>
   )
-}
+};
 
-export default App;
 
 
 

@@ -5,18 +5,21 @@ import { NavLink } from 'react-router-dom';
 import Form from './Form';
 
 export default class UserSignUp extends Component {
-    // Initialize state to include user credentials and errors if any
-    state = {
-        firstName: '',
-        lastName: '',
-        emailAddress: '',
-        password: '',
-        confirmPassword: '',
-        errors: []
+    // Initialize state of user credentials and errors
+    constructor() {
+        super();
+        this.state = {
+            firstName: '',
+            lastName: '',
+            emailAddress: '',
+            password: '',
+            confirmPassword: '',
+            errors: []
+        };
     }
 
     render() {
-        // Update state in object with user credentials or errors if any
+        // Update state in user credentials object or errors (if any)
         const {
             firstName,
             lastName,
@@ -36,51 +39,49 @@ export default class UserSignUp extends Component {
                     errors={errors}
                     submit={this.submit}
                     submitButtonText="Sign Up"
-                    // Notice how the component <Form> uses an elements prop whose 
-                    // value is a function which returns the input fields to be used 
-                    // in each of the forms:
+                    // Note: The elements prop value is a function that returns the form's input fields
                     elements={() => (
-                    <React.Fragment>
-                        <label htmlFor="firstName">First Name</label>
-                        <input 
-                        id="firstName" 
-                        name="firstName" 
-                        type="text"
-                        value={firstName} 
-                        onChange={this.change} />
+                        <React.Fragment>
+                            <label htmlFor="firstName">First Name</label>
+                            <input 
+                            id="firstName" 
+                            name="firstName" 
+                            type="text"
+                            value={firstName} 
+                            onChange={this.change} />
 
-                        <label htmlFor="lastName">Last Name</label>
-                        <input 
-                        id="lastName" 
-                        name="lastName" 
-                        type="text"
-                        value={lastName} 
-                        onChange={this.change} />
+                            <label htmlFor="lastName">Last Name</label>
+                            <input 
+                            id="lastName" 
+                            name="lastName" 
+                            type="text"
+                            value={lastName} 
+                            onChange={this.change} />
 
-                        <label htmlFor="emailAddress">Email Address</label>
-                        <input 
-                        id="emailAddress" 
-                        name="emailAddress" 
-                        type="email"
-                        value={emailAddress} 
-                        onChange={this.change} />
+                            <label htmlFor="emailAddress">Email Address</label>
+                            <input 
+                            id="emailAddress" 
+                            name="emailAddress" 
+                            type="email"
+                            value={emailAddress} 
+                            onChange={this.change} />
 
-                        <label htmlFor="password">Password</label>
-                        <input 
-                        id="password" 
-                        name="password"
-                        type="password"
-                        value={password} 
-                        onChange={this.change} />
-                        
-                        <label htmlFor="confirmPassword">Confirm Password</label>
-                        <input 
-                        id="confirmPassword" 
-                        name="confirmPassword"
-                        type="password"
-                        value={confirmPassword} 
-                        onChange={this.change} />
-                    </React.Fragment>
+                            <label htmlFor="password">Password</label>
+                            <input 
+                            id="password" 
+                            name="password"
+                            type="password"
+                            value={password} 
+                            onChange={this.change} />
+                            
+                            <label htmlFor="confirmPassword">Confirm Password</label>
+                            <input 
+                            id="confirmPassword" 
+                            name="confirmPassword"
+                            type="password"
+                            value={confirmPassword} 
+                            onChange={this.change} />
+                        </React.Fragment>
                     )} />
                 <p>
                     Already have a user account? Click here to <NavLink to="/signin">sign in</NavLink>!
@@ -136,8 +137,9 @@ export default class UserSignUp extends Component {
                         });
                 }
             })
-            .catch( err => { // handle errors (rejected promises) from server side
-                console.log(err);
+            .catch( error => { // handle errors (rejected promises) from server side (E.C. #1)
+                console.log(error);
+                this.props.history.push('/error');
             })
     }
 

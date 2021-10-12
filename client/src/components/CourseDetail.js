@@ -1,10 +1,3 @@
-////////// NOTES //////////
-
-
-////////// TO-DO //////////
-// Code clean up
-
-
 /* STATEFUL FUNCTION COMPONENT */
 
 // Import React libraries and hooks
@@ -101,8 +94,8 @@ export default function CourseDetail(props) {
                     props.history.push('/');
                 }
             })
-            .catch( err => { // handle errors (rejected promises) from server side
-            console.log(err);
+            .catch( error => { // handle errors (rejected promises) from server side
+            console.log(error);
             })
 
         // LOG STATEMENTS
@@ -117,6 +110,7 @@ export default function CourseDetail(props) {
     // Mark up of returned course's details
     return (
         <main>
+            {/* E.C. #1 */}
             {error ? (
                 <Redirect to="/notfound" />
             ) : (
@@ -163,7 +157,6 @@ export default function CourseDetail(props) {
         </main>
     )
 };
-
 
 
 

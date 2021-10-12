@@ -1,13 +1,13 @@
-/* HIGHER-ORDER COMPONENT (HOC) */
+/* HIGHER-ORDER COMPONENT (HOC): */
 
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { Consumer } from './Context';
 
-// PrivateRoute functional component wraps a specified <Route> and redirects to login page IF NOT authenticated
+// PrivateRoute function component wraps a specified <Route> and redirects to login page IF NOT authenticated
 export default function PrivateRoute({ component: Component, ...rest }) { // inside parameter, destructure and rename component and collect any props passed to it
     return (
-        // Consumer tags subscribes PrivateRoute component to all context actions and data
+        // Consumer tags subscribes PrivateRoute component to all context, actions and data
         <Consumer>
           {context => (
             <Route

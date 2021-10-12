@@ -4,22 +4,19 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import Form from './Form';
 
-// Declare stateful class component to render Sign In page and store state for authentication
 export default class UserSignIn extends Component {
-    // Initialize state to include user credentials and errors if any
-    state = {
-        emailAddress: '',
-        password: '',
-        errors: []
-    }
-
-    handleLogInUser(event) {
-        event.preventDefault();
-        console.log('Event fired when clicked');
+    // Initialize state of user credentials and errors
+    constructor() {
+        super();
+        this.state = {
+            emailAddress: '',
+            password: '',
+            errors: []
+        };
     }
 
     render() {
-        // Update state in object with user credentials and errors if any
+        // Update state in user credentials object or errors (if any)
         const {
             emailAddress,
             password,
@@ -97,6 +94,10 @@ export default class UserSignIn extends Component {
                     this.props.history.push(from); // push url path previously accessed before user was authenticated (E.C. #3)
                 }
             })
+            .catch( error => { // handle errors (rejected promises) from server side (E.C. #1)
+                console.log(error);
+                this.props.history.push('/error');
+            })
         
         // LOG STATEMENTS
         // console.log(emailAddress);
@@ -108,3 +109,6 @@ export default class UserSignIn extends Component {
         this.props.history.push('/');
     }
 }
+
+
+

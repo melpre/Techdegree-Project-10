@@ -1,14 +1,6 @@
-////////// NOTES //////////
-// Bug: when authorized user navigates to a course not owned via '/courses/:id/update', a blank Update Course page is
-// displayed instead of redirect to "/forbidden"
-
-////////// TO-DO //////////
-// Code clean up
-
 /* STATEFUL CLASS COMPONENT */
 
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import Form from './Form';
 
 export default class UpdateCourse extends Component {
@@ -26,7 +18,8 @@ export default class UpdateCourse extends Component {
         };
     }
 
-    // componentDidMount() method is called immediately after UpdateCourse component is added to DOM
+    // Call componentDidMount() to fetch course data and update state and conditionally render UpdateCourse component
+    // Note: this will be called immediately after UpdateCourse component is added to DOM
     componentDidMount() {
         // Extract authenticatedUser state from this.props (passed down from Context & props)
         const { context } = this.props;
@@ -50,7 +43,7 @@ export default class UpdateCourse extends Component {
                     materialsNeeded,
                     userId
                 } = data.course;
-                // If authorized user's ID matches user ID of fetched course, set state to response data
+                // If authorized user ID matches user ID of fetched course, update course state
                 if (authUser.userId === userId) {
                     return this.setState({
                         id: id,
@@ -62,24 +55,24 @@ export default class UpdateCourse extends Component {
                         errors: ''
                     });
                 } else {
-                    // If match is false, redirect to "/forbidden"
-                    <Redirect to="/forbidden" />
+                    // If match is false, push to history stack and redirect user to '/forbidden' (E.C. #1)
+                    this.props.history.push('/forbidden');
                 }
                 // LOG STATEMENTS
-                console.log(authUser.userId);
-                console.log(userId);
+                // console.log(authUser.userId);
+                // console.log(userId);
             })
-        // Catch any errors thrown from the fetch call
-        .catch(error => {
-            if (error) {
-                // Redirect user to '/notfound' if course could not be fetched (E.C. #1)
-                <Redirect to="/notfound" />
-                console.log(error);
-                return this.setState({
-                    errors: error
-                })
-            }
-        });
+            // Catch any errors thrown from the fetch call (E.C. #1)
+            .catch( error => {
+                if (error) {
+                    // Redirect user to '/notfound' if course could not be fetched (E.C. #1)
+                    this.props.history.push('/notfound');
+                    console.log(error);
+                    return this.setState({
+                        errors: error
+                    })
+                }
+            });
     }
 
     render() {
@@ -91,53 +84,55 @@ export default class UpdateCourse extends Component {
         return (
             <div className="wrap">
                 <h2>Update Course</h2>
+                {/* Render child component <Form> to display validation errors if any */}
                 <Form
                     cancel={this.cancel}
                     errors={this.state.errors}
                     submit={this.submit}
                     submitButtonText="Update Course"
+                    // Note: The elements prop value is a function that returns the form's input fields
                     elements={() => (
-                    <React.Fragment>
-                        <div className="main--flex">
-                            <div>
-                                <label htmlFor="title">Course Title</label>
-                                <input 
-                                id="title" 
-                                name="title" 
-                                type="text" 
-                                value={this.state.title}
-                                onChange={this.change} />
+                        <React.Fragment>
+                            <div className="main--flex">
+                                <div>
+                                    <label htmlFor="title">Course Title</label>
+                                    <input 
+                                    id="title" 
+                                    name="title" 
+                                    type="text" 
+                                    value={this.state.title}
+                                    onChange={this.change} />
 
-                                {/* Render instructor name via Context component */}
-                                <p>By {authUser.firstName} {authUser.lastName}</p> 
+                                    {/* Render instructor name via Context component */}
+                                    <p>By {authUser.firstName} {authUser.lastName}</p> 
 
-                                <label htmlFor="description">Course Description</label>
-                                <textarea 
-                                id="description" 
-                                name="description"
-                                type="text"
-                                value={this.state.description}
-                                onChange={this.change} />
+                                    <label htmlFor="description">Course Description</label>
+                                    <textarea 
+                                    id="description" 
+                                    name="description"
+                                    type="text"
+                                    value={this.state.description}
+                                    onChange={this.change} />
+                                </div>
+                                <div>
+                                    <label htmlFor="estimatedTime">Estimated Time</label>
+                                    <input 
+                                    id="estimatedTime" 
+                                    name="estimatedTime" 
+                                    type="text" 
+                                    value={this.state.estimatedTime}
+                                    onChange={this.change} />
+
+                                    <label htmlFor="materialsNeeded">Materials Needed</label>
+                                    <textarea 
+                                    id="materialsNeeded" 
+                                    name="materialsNeeded"
+                                    type="text"
+                                    value={this.state.materialsNeeded}
+                                    onChange={this.change} />
+                                </div>
                             </div>
-                            <div>
-                                <label htmlFor="estimatedTime">Estimated Time</label>
-                                <input 
-                                id="estimatedTime" 
-                                name="estimatedTime" 
-                                type="text" 
-                                value={this.state.estimatedTime}
-                                onChange={this.change} />
-
-                                <label htmlFor="materialsNeeded">Materials Needed</label>
-                                <textarea 
-                                id="materialsNeeded" 
-                                name="materialsNeeded"
-                                type="text"
-                                value={this.state.materialsNeeded}
-                                onChange={this.change} />
-                            </div>
-                        </div>
-                    </React.Fragment>
+                        </React.Fragment>
                     )} />
             </div>
         );
@@ -163,7 +158,8 @@ export default class UpdateCourse extends Component {
 
         // Destructure props to extract context from this.props
         const { context } = this.props;
-        // const authUser = context.authenticatedUser;
+
+        // Store props in separate vars
         const authEmail = context.emailAddress;
         const authPass = context.password;
 
@@ -177,8 +173,8 @@ export default class UpdateCourse extends Component {
             userId
         } = this.state;
 
-        // Define updated course data entered by authenticated user
-        // Updated course data will be passed to updateCourse() function in <Data> component
+        // Define and store updated course data entered by authenticated user
+        // Note: Updated course data will be passed to updateCourse() function in <Data> component
         const course = {
             id,
             title,
@@ -189,7 +185,7 @@ export default class UpdateCourse extends Component {
         };
 
         // Call updateCourse() and pass in new course data AND authenticated user's credentials
-        // User credentials MUST PASS auth-handler middleware in api
+        // Note: User credentials MUST PASS auth-handler middleware in api
         context.data.updateCourse(urlParam, course, authEmail, authPass)
             .then( errors => { // chain then() to see if api returns status 400 and errors array
                 if (errors.length) { // if errors are present
@@ -199,8 +195,9 @@ export default class UpdateCourse extends Component {
                     this.props.history.push(`/courses/${urlParam}`);
                 }
             })
-            .catch( err => { // handle errors (rejected promises) from server side
-                console.log(err);
+            .catch( error => { // handle errors (rejected promises) from server side (E.C. #1)
+                console.log(error);
+                this.props.history.push('/error');
             })
         
         // LOG STATEMENTS
@@ -213,7 +210,7 @@ export default class UpdateCourse extends Component {
         // console.log(id);
     }
 
-    // cancel() function re-directs user back to '/' when cancel button clicked
+    // cancel() function pushes '/' to history stack and re-directs user
     cancel = () => {
         this.props.history.push('/');
     }

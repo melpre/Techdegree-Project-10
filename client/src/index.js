@@ -7,12 +7,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  // <React.StrictMode>
   // Wrap ENTIRE App with Provider Component
   <Provider>
     <App />
   </Provider>,
-  // </React.StrictMode>,
   document.getElementById('root')
 );
 
