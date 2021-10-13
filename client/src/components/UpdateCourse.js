@@ -189,8 +189,9 @@ export default class UpdateCourse extends Component {
         context.data.updateCourse(urlParam, course, authEmail, authPass)
             .then( errors => { // chain then() to see if api returns status 400 and validation errors array
                 if (errors.length) { // if validation errors are present
-                    console.log(errors); // LOG STATEMENT
                     this.setState({ errors }); // update errors state to returned errors from api
+                    // LOG STATEMENT
+                    // console.log(errors);
                 } else { // else if new course is successfully updated and sent to api, display log msg:
                     console.log(`${title} is successfully updated!`);
                     this.props.history.push(`/courses/${urlParam}`);
@@ -211,9 +212,8 @@ export default class UpdateCourse extends Component {
         // console.log(id);
     }
 
-    // cancel() function pushes '/' to history stack and re-directs user
+    // cancel() function pushes '/courses/:id' to history stack and re-directs user
     cancel = () => {
-        // Take user back to the Course Detail page
         this.props.history.push(`/courses/${this.state.id}`);
     }
 }

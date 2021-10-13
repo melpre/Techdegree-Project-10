@@ -84,7 +84,7 @@ export default class Data {
     const response = await this.api(`/courses/${id}`, 'PUT', course, true, { emailAddress, password });
     if (response.status === 204) {
       return [];
-    } else if (response.status === 403 || 400) { // check to see if response status is 403 (Forbidden) or 400 (Bad Request)
+    } else if (response.status === 400) { // check to see if response status is 400 (Bad Request)
       return response.json().then(data => {
         console.log(data.errors);
         return data.errors;
