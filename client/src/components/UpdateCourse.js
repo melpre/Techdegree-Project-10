@@ -187,8 +187,9 @@ export default class UpdateCourse extends Component {
         // Call updateCourse() and pass in new course data AND authenticated user's credentials
         // Note: User credentials MUST PASS auth-handler middleware in api
         context.data.updateCourse(urlParam, course, authEmail, authPass)
-            .then( errors => { // chain then() to see if api returns status 400 and errors array
-                if (errors.length) { // if errors are present
+            .then( errors => { // chain then() to see if api returns status 400 and validation errors array
+                if (errors.length) { // if validation errors are present
+                    console.log(errors); // LOG STATEMENT
                     this.setState({ errors }); // update errors state to returned errors from api
                 } else { // else if new course is successfully updated and sent to api, display log msg:
                     console.log(`${title} is successfully updated!`);
@@ -212,7 +213,8 @@ export default class UpdateCourse extends Component {
 
     // cancel() function pushes '/' to history stack and re-directs user
     cancel = () => {
-        this.props.history.push('/');
+        // Take user back to the Course Detail page
+        this.props.history.push(`/courses/${this.state.id}`);
     }
 }
 
