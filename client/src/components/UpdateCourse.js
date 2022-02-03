@@ -30,7 +30,8 @@ export default class UpdateCourse extends Component {
         const urlParam = currentURL.substring(30, 32);
 
         // Fetch course detail
-        fetch(`http://localhost:5000/api/courses/${urlParam}`)
+        // fetch(`http://localhost:5000/api/courses/${urlParam}`)
+           fetch(`http://localhost:8000/api/courses/${urlParam}`) // new port 8000
             // Parse response to JSON
             .then((response) => response.json())
             // Assign response data to course props

@@ -32,7 +32,8 @@ export default function CourseDetail(props) {
             const currentURL = window.location.href;
             const urlParam = currentURL.substring(30);
             try {
-                const response = await fetch(`http://localhost:5000/api/courses/${urlParam}`);
+                // const response = await fetch(`http://localhost:5000/api/courses/${urlParam}`);
+                const response = await fetch(`http://localhost:8000/api/courses/${urlParam}`); // new port 8000
                 const data = await response.json();
                 const {
                     id,
